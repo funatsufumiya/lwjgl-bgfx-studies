@@ -11,10 +11,12 @@ import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_begin;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_end;
+import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_index_buffer;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_state;
+import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_vertex_buffer;
+import static org.lwjgl.bgfx.BGFX.bgfx_encoder_submit;
 import static org.lwjgl.bgfx.BGFX.bgfx_set_debug;
 import static org.lwjgl.bgfx.BGFX.bgfx_set_view_clear;
-import org.lwjgl.bgfx.BGFXMemory;
 import org.lwjgl.bgfx.BGFXVertexLayout;
 
 import sketch.App;
@@ -68,9 +70,9 @@ public class RectSketch extends Sketch {
             0
         );
 
-        bgfx_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
-        bgfx_set_index_buffer(encoder, index_buffer, 0, 6);
-        bgfx_encoder_submit(0, program, 0, 0);
+        bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
+        bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);
+        bgfx_encoder_submit(encoder, 0, program, 0, 0);
 
         bgfx_encoder_end(encoder);
 
@@ -81,25 +83,5 @@ public class RectSketch extends Sketch {
 
     public static void main(String[] args) {
         App.main("test.RectSketch", 640, 480);
-    }
-
-    private BGFXMemory makeRef(float[] f) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private void bgfx_set_vertex_buffer(long encoder, int i, short vertex_buffer, int i0, int i1) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private void bgfx_set_index_buffer(long encoder, short index_buffer, int i, int i0) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private void bgfx_set_state(long encoder, long l) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private void bgfx_encoder_submit(int i, short program, int i0, int i1) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
