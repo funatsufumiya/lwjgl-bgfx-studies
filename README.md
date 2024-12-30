@@ -6,7 +6,16 @@ My studies of the BGFX library using the LWJGL3.
 
 ## Run
 
+### Basic
+
 ```bash
 ./gradlew buildExample
 ./gradlew runHelloBGFX
+```
+
+### Sketch
+
+```bash
+./gradlew buildExample
+./gradlew runHelloSketch
 ```

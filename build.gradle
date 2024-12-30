@@ -40,11 +40,11 @@ dependencies {
 }
 
 sourceSets {
-    // main {
-    //     java {
-    //         srcDirs = ['src']
-    //     }
-    // }
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
     example {
         java {
             srcDirs = ['examples/LWJGL-test/src']
@@ -76,4 +76,14 @@ tasks.register('buildHelloBGFX', JavaCompile) {
 task runHelloBGFX(type: JavaExec) {
     classpath = sourceSets.example.runtimeClasspath
     main = 'test.HelloBGFX'
+}
+
+task runSimplest(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.Simplest'
+}
+
+task runHelloSketch(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.HelloSketch'
 }
