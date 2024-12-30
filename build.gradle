@@ -1,0 +1,79 @@
+plugins {
+    id 'java-library'
+    id 'application'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+project.ext.lwjglVersion = "3.3.5"
+project.ext.lwjglNatives = "natives-macos-arm64"
+project.ext.lwjglNatives2 = "natives-windows"
+
+dependencies {
+    implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.5'
+    implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.5'
+    // implementation group: 'org.lwjgl', name: 'lwjgl-opengl', version: '3.3.5'
+    implementation group: 'org.lwjgl', name: 'lwjgl-bgfx', version: '3.3.5'
+    implementation(group: 'org.processing', name: 'core', version: '4.3.1') {
+        exclude group: 'org.jogamp.jogl'
+        exclude group: 'org.jogamp.gluegen'
+    }
+    // only for NotImplementedException
+    implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
+
+    testImplementation 'junit:junit:4.12'
+
+    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
+    // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives"
+
+    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives2"
+    runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives2"
+    // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives2"
+    runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives2"
+}
+
+sourceSets {
+    // main {
+    //     java {
+    //         srcDirs = ['src']
+    //     }
+    // }
+    example {
+        java {
+            srcDirs = ['examples/LWJGL-test/src']
+        }
+        compileClasspath += sourceSets.main.output + configurations.compileClasspath
+        runtimeClasspath += sourceSets.main.output + configurations.runtimeClasspath
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('buildExample', JavaCompile) {
+    source = sourceSets.example.java
+    classpath = sourceSets.example.compileClasspath + configurations.compileClasspath
+    destinationDir = file("${buildDir}/classes/example")
+    options.encoding = 'UTF-8'
+}
+
+// just alias of buildExample
+tasks.register('buildHelloBGFX', JavaCompile) {
+    source = sourceSets.example.java
+    classpath = sourceSets.example.compileClasspath + configurations.compileClasspath
+    destinationDir = file("${buildDir}/classes/example")
+    options.encoding = 'UTF-8'
+}
+
+task runHelloBGFX(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.HelloBGFX'
+}
