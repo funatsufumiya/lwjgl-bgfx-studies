@@ -4,12 +4,14 @@ import java.util.Objects;
 
 import static org.lwjgl.bgfx.BGFX.BGFX_NATIVE_WINDOW_HANDLE_TYPE_WAYLAND;
 import static org.lwjgl.bgfx.BGFX.BGFX_RESET_VSYNC;
+import static org.lwjgl.bgfx.BGFX.bgfx_frame;
 import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_name;
 import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_type;
 import static org.lwjgl.bgfx.BGFX.bgfx_init;
 import static org.lwjgl.bgfx.BGFX.bgfx_init_ctor;
 import static org.lwjgl.bgfx.BGFX.bgfx_set_view_rect;
 import static org.lwjgl.bgfx.BGFX.bgfx_shutdown;
+import static org.lwjgl.bgfx.BGFX.bgfx_touch;
 import org.lwjgl.bgfx.BGFXInit;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_CLIENT_API;
@@ -245,7 +247,15 @@ public class App {
                 // Set view 0 default viewport.
                 bgfx_set_view_rect(0, 0, 0, width, height);
 
+                // This dummy draw call is here to make sure that view 0 is cleared
+                // if no other draw calls are submitted to view 0.
+                bgfx_touch(0);
+
                 sketch.draw();
+
+                // Advance to next frame. Rendering thread will be kicked to
+                // process submitted rendering primitives.
+                bgfx_frame(false);
             }
 
             sketch.exit();

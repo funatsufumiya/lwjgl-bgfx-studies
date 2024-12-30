@@ -33,4 +33,8 @@ public class PGraphics {
         int c = java.awt.Color.HSBtoRGB(h / 360.0f, s / 255.0f, b / 255.0f);
         return (c & 0xffffff) | 0xff000000;
     }
+
+    public static void rect(float x, float y, float w, float h) {
+        // TODO
+    }
 }
