@@ -164,6 +164,7 @@ public class App {
             int height = windowInitSetting.getHeight();
             String title = windowInitSetting.getTitle();
             long window = glfwCreateWindow(width, height, title, 0, 0);
+
             if (window == NULL) {
                 throw new RuntimeException("Error creating GLFW window");
             }
@@ -236,6 +237,8 @@ public class App {
 
                 sketch.draw();
             }
+
+            sketch.exit();
 
             bgfx_shutdown();
 
