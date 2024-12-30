@@ -37,4 +37,8 @@ public class PGraphics {
     public static void rect(float x, float y, float w, float h) {
         // TODO
     }
+
+    public static int getRendererType() {
+        return BGFX.bgfx_get_renderer_type();
+    }
 }
