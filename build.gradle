@@ -87,3 +87,13 @@ task runHelloSketch(type: JavaExec) {
     classpath = sourceSets.example.runtimeClasspath
     main = 'test.HelloSketch'
 }
+
+task runBGSketch(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.BGSketch'
+}
+
+task runRectSketch(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.RectSketch'
+}

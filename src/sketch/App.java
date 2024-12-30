@@ -107,11 +107,21 @@ public class App {
     }
 
     public static void main(String clazz, int width, int height) {
-        mainImpl(clazz, new WindowInitSetting(width, height), new String[0]);
+        String title = clazz;
+        mainImpl(clazz, new WindowInitSetting(width, height, title), new String[0]);
+    }
+
+    public static void main(String clazz, int width, int height, String title) {
+        mainImpl(clazz, new WindowInitSetting(width, height, title), new String[0]);
     }
 
     public static void main(String clazz, int width, int height, String[] args) {
-        mainImpl(clazz, new WindowInitSetting(width, height), args);
+        String title = clazz;
+        mainImpl(clazz, new WindowInitSetting(width, height, title), args);
+    }
+
+    public static void main(String clazz, int width, int height, String title, String[] args) {
+        mainImpl(clazz, new WindowInitSetting(width, height, title), args);
     }
 
     public static void main(String clazz, WindowInitSetting windowInitSetting, String[] args) {
@@ -154,7 +164,6 @@ public class App {
             if (glfwGetPlatform() == GLFW_PLATFORM_COCOA) {
                 glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
             }
-            
             
             if (isVerbose()) {
                 System.out.println("glfw create window");
@@ -227,6 +236,7 @@ public class App {
                 System.out.println("bgfx renderer: " + bgfx_get_renderer_name(bgfx_get_renderer_type()));
             }
 
+            sketch._setStartTimeMillis(System.currentTimeMillis());
             sketch.setup();
 
             while (!glfwWindowShouldClose(window)) {
