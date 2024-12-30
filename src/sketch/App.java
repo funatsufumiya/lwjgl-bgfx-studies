@@ -162,7 +162,8 @@ public class App {
 
             int width = windowInitSetting.getWidth();
             int height = windowInitSetting.getHeight();
-            long window = glfwCreateWindow(width, height, "Test", 0, 0);
+            String title = windowInitSetting.getTitle();
+            long window = glfwCreateWindow(width, height, title, 0, 0);
             if (window == NULL) {
                 throw new RuntimeException("Error creating GLFW window");
             }
