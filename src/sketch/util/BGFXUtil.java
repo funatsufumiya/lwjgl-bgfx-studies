@@ -162,6 +162,7 @@ public class BGFXUtil {
         App.logInfo("bgfx: loading resource '" + path + "' (" + resourceSize + " bytes)");
 
         ByteBuffer resource = memAlloc(resourceSize);
+        // ByteBuffer resource = memAlloc(resourceSize + 3); // arbitrary add abc as debug
 
         // try (BufferedInputStream bis = new BufferedInputStream(url.openStream())) {
         try (BufferedInputStream bis = new BufferedInputStream(path.toUri().toURL().openStream())) {
@@ -173,6 +174,11 @@ public class BGFXUtil {
                 }
             } while (b != -1);
         }
+
+        // debug (arbitrary add abc)
+        // resource.put((byte) 'a');
+        // resource.put((byte) 'b');
+        // resource.put((byte) 'c');
 
         resource.flip();
 
@@ -216,7 +222,6 @@ public class BGFXUtil {
 
         // int renderer = bgfx_get_renderer_type();
         switch (renderer) {
-
             case BGFX_RENDERER_TYPE_DIRECT3D11:
             case BGFX_RENDERER_TYPE_DIRECT3D12:
                 sc = shaderCodeD3D11;
@@ -239,11 +244,17 @@ public class BGFXUtil {
         }
 
         ByteBuffer shaderCode = memAlloc(sc.length);
+        // ByteBuffer shaderCode = memAlloc(sc.length + 3); // arbitrary add abc as debug
         // ByteBuffer shaderCode = ByteBuffer.allocateDirect(sc.length);
 
         for (char c : sc) {
             shaderCode.put((byte) c);
         }
+
+        // debug (arbitrary add abc)
+        // shaderCode.put((byte) 'a');
+        // shaderCode.put((byte) 'b');
+        // shaderCode.put((byte) 'c');
 
         shaderCode.flip();
 

@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
@@ -57,6 +58,9 @@ public class TriangleSketch extends Sketch {
     FloatBuffer view_buffer;
     FloatBuffer model_buffer;
 
+    ByteBuffer vertices;
+    ByteBuffer indices;
+
     short vertex_buffer = -1;
     short index_buffer = -1;
     short program = -1;
@@ -81,8 +85,11 @@ public class TriangleSketch extends Sketch {
 
         layout = BGFXUtil.createVertexLayout2D(false, true, 0);
 
-        vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYC, 3), layout, kTriangleVertices);
-        index_buffer = BGFXUtil.createIndexBuffer(kTriangleIndices);
+        vertices = MemoryUtil.memAlloc(byteSizeOf(XYC, 3));
+        indices = MemoryUtil.memAlloc(kTriangleIndices.length * 2);
+
+        vertex_buffer = BGFXUtil.createVertexBuffer(vertices, layout, kTriangleVertices);
+        index_buffer = BGFXUtil.createIndexBuffer(indices, kTriangleIndices);
         try {
             program = BGFXUtil.createBasicShaderProgram();
         } catch (IOException ex) {
@@ -136,9 +143,13 @@ public class TriangleSketch extends Sketch {
         MemoryUtil.memFree(proj_buffer);
         MemoryUtil.memFree(view_buffer);
         MemoryUtil.memFree(model_buffer);
+
         bgfx_destroy_program(program);
         bgfx_destroy_index_buffer(index_buffer);
+        MemoryUtil.memFree(indices);
         bgfx_destroy_vertex_buffer(vertex_buffer);
+        MemoryUtil.memFree(vertices);
+
         layout.free();
     }
 
