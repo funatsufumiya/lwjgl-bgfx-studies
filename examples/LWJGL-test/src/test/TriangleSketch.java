@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
+import org.joml.Matrix4x3f;
+import org.joml.Vector3f;
 import org.lwjgl.bgfx.BGFX;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
@@ -23,6 +25,7 @@ import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_vertex_buffer;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_submit;
 import static org.lwjgl.bgfx.BGFX.bgfx_set_debug;
 import static org.lwjgl.bgfx.BGFX.bgfx_set_view_clear;
+import static org.lwjgl.bgfx.BGFX.bgfx_set_view_transform;
 import org.lwjgl.bgfx.BGFXVertexLayout;
 import org.lwjgl.system.MemoryUtil;
 
@@ -48,7 +51,11 @@ public class TriangleSketch extends Sketch {
     int kTriangleIndices[] = {0, 1, 2};
 
     Matrix4f proj = new Matrix4f();
+    Matrix4x3f view = new Matrix4x3f();
+    Matrix4x3f model = new Matrix4x3f();
     FloatBuffer proj_buffer;
+    FloatBuffer view_buffer;
+    FloatBuffer model_buffer;
 
     short vertex_buffer = -1;
     short index_buffer = -1;
@@ -62,69 +69,15 @@ public class TriangleSketch extends Sketch {
         // bgfx_set_debug(BGFX_DEBUG_TEXT | BGFX_DEBUG_STATS);
         bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
-        // const bgfx::Caps* caps = bgfx::getCaps();
-
-        // float proj[16];
-        // // -- void mtxOrtho(float* _result, float _left, float _right, float _bottom, float _top, float _near, float _far, float _offset, bool _homogeneousNdc, Handedness::Enum _handedness)
-        // void mtxOrtho(float* _result, float _left, float _right, float _bottom, float _top, float _near, float _far, float _offset, bool _homogeneousNdc, Handedness::Enum _handedness)
-        // {
-        //     const float aa = 2.0f/(_right - _left);
-        //     const float bb = 2.0f/(_top - _bottom);
-        //     const float cc = (_homogeneousNdc ? 2.0f : 1.0f) / (_far - _near);
-        //     const float dd = (_left + _right )/(_left   - _right);
-        //     const float ee = (_top  + _bottom)/(_bottom - _top  );
-        //     const float ff = _homogeneousNdc
-        //         ? (_near + _far)/(_near - _far)
-        //         :  _near        /(_near - _far)
-        //         ;
-
-        //     memSet(_result, 0, sizeof(float)*16);
-        //     _result[ 0] = aa;
-        //     _result[ 5] = bb;
-        //     _result[10] = Handedness::Right == _handedness ? -cc : cc;
-        //     _result[12] = dd + _offset;
-        //     _result[13] = ee;
-        //     _result[14] = ff;
-        //     _result[15] = 1.0f;
-        // }
-
-        // bx::mtxOrtho(
-        //     proj
-        //     , 0.0f
-        //     , (float)m_screenWidth
-        //     , (float)m_screenHeight
-        //     , 0.0f
-        //     , 0.0f
-        //     , 1000.0f
-        //     , 0.0f
-        //     , caps->homogeneousDepth
-        //     );
-
-        // BGFXCaps caps = BGFX.bgfx_get_caps();
-        // // true if [-1, 1] depth range, false if [0, 1]
-        // boolean is_hd = caps.homogeneousDepth();
-        // boolean zZeroToOne = !is_hd;
-
-        // App.logInfo("is zZeroToOne: " + zZeroToOne);
-
-        // // -- setOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
-        // // -- setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne)
-        // proj.setOrtho(
-        //     0.0f,
-        //     (float)width,
-        //     (float)height,
-        //     0.0f,
-        //     0.0f,
-        //     1000.0f,
-        //     zZeroToOne);
-
         // // -- proj.setOrtho2D(left, right, bottom, top);
-        proj.setOrtho2D(0.0f, width, height, 0.0f);
+        // proj.setOrtho2D(0.0f, width, height, 0.0f);
 
-        App.logInfo("proj: \n" + proj.toString());
+        // App.logInfo("proj: \n" + proj.toString());
 
         proj_buffer = MemoryUtil.memAllocFloat(16);
         // proj_buffer = FloatBuffer.allocate(16);
+        view_buffer = MemoryUtil.memAllocFloat(16);
+        model_buffer = MemoryUtil.memAllocFloat(16);
 
         layout = BGFXUtil.createVertexLayout2D(false, true, 0);
 
@@ -144,11 +97,18 @@ public class TriangleSketch extends Sketch {
         background(125);
         // background(255);
 
+        BGFXUtil.lookAt(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, -35.0f), view);
+        BGFXUtil.perspective(60.0f, width, height, 0.1f, 100.0f, proj);
+
+        bgfx_set_view_transform(0, view.get4x4(view_buffer), proj.get(proj_buffer));
+
         long encoder = bgfx_encoder_begin(false);
 
         // draw triangle
 
-        BGFX.bgfx_encoder_set_transform(encoder, proj.get(proj_buffer));
+        BGFX.bgfx_encoder_set_transform(encoder,
+            model.identity().rotateY(elapsedTimeSeconds()).get4x4(model_buffer)
+        );
 
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 3);
@@ -174,6 +134,8 @@ public class TriangleSketch extends Sketch {
     @Override
     public void exit() {
         MemoryUtil.memFree(proj_buffer);
+        MemoryUtil.memFree(view_buffer);
+        MemoryUtil.memFree(model_buffer);
         bgfx_destroy_program(program);
         bgfx_destroy_index_buffer(index_buffer);
         bgfx_destroy_vertex_buffer(vertex_buffer);

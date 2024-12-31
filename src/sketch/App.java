@@ -240,6 +240,8 @@ public class App {
                 System.out.println("bgfx renderer: " + bgfx_get_renderer_name(bgfx_get_renderer_type()));
             }
 
+            BGFXUtil._configure();
+
             sketch._setStartTimeMillis(System.currentTimeMillis());
             sketch.setup();
 

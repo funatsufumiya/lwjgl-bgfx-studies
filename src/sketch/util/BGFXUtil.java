@@ -6,6 +6,9 @@ import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.joml.Matrix4f;
+import org.joml.Matrix4x3f;
+import org.joml.Vector3f;
 import org.lwjgl.bgfx.BGFX;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_COLOR0;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_NORMAL;
@@ -23,7 +26,6 @@ import static org.lwjgl.bgfx.BGFX.BGFX_TEXTURE_NONE;
 import static org.lwjgl.bgfx.BGFX.bgfx_create_shader;
 import static org.lwjgl.bgfx.BGFX.bgfx_create_texture;
 import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_name;
-import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_type;
 import static org.lwjgl.bgfx.BGFX.bgfx_make_ref_release;
 import org.lwjgl.bgfx.BGFXMemory;
 import org.lwjgl.bgfx.BGFXReleaseFunctionCallback;
@@ -80,7 +82,7 @@ public class BGFXUtil {
 
         BGFXVertexLayout layout = BGFXVertexLayout.calloc();
 
-        int renderer = BGFX.bgfx_get_renderer_type();
+        // int renderer = BGFX.bgfx_get_renderer_type();
         BGFX.bgfx_vertex_layout_begin(layout, renderer);
 
         BGFX.bgfx_vertex_layout_add(layout,
@@ -180,7 +182,7 @@ public class BGFXUtil {
   public static short loadShader(String name) throws IOException {
 
         String resourcePath = SHADER_RESOURCE_PATH;
-        int renderer = bgfx_get_renderer_type();
+        // int renderer = bgfx_get_renderer_type();
 
         switch (renderer) {
             case BGFX_RENDERER_TYPE_DIRECT3D11:
@@ -212,7 +214,7 @@ public class BGFXUtil {
     public static short loadShader(char[] shaderCodeGLSL, char[] shaderCodeSPIRV, char[] shaderCodeD3D11, char[] shaderCodeMtl) throws IOException {
         char[] sc;
 
-        int renderer = bgfx_get_renderer_type();
+        // int renderer = bgfx_get_renderer_type();
         switch (renderer) {
 
             case BGFX_RENDERER_TYPE_DIRECT3D11:
@@ -261,7 +263,7 @@ public class BGFXUtil {
 
         BGFXVertexLayout layout = BGFXVertexLayout.calloc();
 
-        int renderer = BGFX.bgfx_get_renderer_type();
+        // int renderer = BGFX.bgfx_get_renderer_type();
         BGFX.bgfx_vertex_layout_begin(layout, renderer);
 
         BGFX.bgfx_vertex_layout_add(layout,
@@ -356,6 +358,28 @@ public class BGFXUtil {
         BGFXMemory ibhMem = BGFX.bgfx_make_ref(buffer);
 
         return BGFX.bgfx_create_index_buffer(ibhMem, BGFX_BUFFER_NONE);
+    }
+
+    private static int renderer = -1;
+    private static boolean zZeroToOne;
+
+    public static void _configure() {
+        BGFXUtil.renderer = BGFX.bgfx_get_renderer_type();
+        BGFXUtil.zZeroToOne = !BGFX.bgfx_get_caps().homogeneousDepth();
+    }
+
+    public static void lookAt(Vector3f at, Vector3f eye, Matrix4x3f dest) {
+        dest.setLookAtLH(eye.x, eye.y, eye.z, at.x, at.y, at.z, 0.0f, 1.0f, 0.0f);
+    }
+
+    public static void perspective(float fov, int width, int height, float near, float far, Matrix4f dest) {
+        float fovRadians = fov * (float) Math.PI / 180.0f;
+        float aspect = width / (float) height;
+        dest.setPerspectiveLH(fovRadians, aspect, near, far, zZeroToOne);
+    }
+
+    public static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4x3f dest) {
+        dest.setOrthoLH(left, right, bottom, top, zNear, zFar, zZeroToOne);
     }
 
     // end of (partial) ref BGFXDemoUtil
