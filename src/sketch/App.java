@@ -1,7 +1,9 @@
 package sketch;
 
+import java.nio.ByteBuffer;
 import java.util.Objects;
 
+import static org.lwjgl.bgfx.BGFX.BGFX_FATAL_DEBUG_CHECK;
 import static org.lwjgl.bgfx.BGFX.BGFX_NATIVE_WINDOW_HANDLE_TYPE_WAYLAND;
 import static org.lwjgl.bgfx.BGFX.BGFX_RESET_VSYNC;
 import static org.lwjgl.bgfx.BGFX.bgfx_frame;
@@ -12,6 +14,8 @@ import static org.lwjgl.bgfx.BGFX.bgfx_init_ctor;
 import static org.lwjgl.bgfx.BGFX.bgfx_set_view_rect;
 import static org.lwjgl.bgfx.BGFX.bgfx_shutdown;
 import static org.lwjgl.bgfx.BGFX.bgfx_touch;
+import org.lwjgl.bgfx.BGFXCallbackInterface;
+import org.lwjgl.bgfx.BGFXCallbackVtbl;
 import org.lwjgl.bgfx.BGFXInit;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_CLIENT_API;
@@ -42,7 +46,11 @@ import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.system.MemoryUtil.memASCII;
+import static org.lwjgl.system.MemoryUtil.memAddress;
+import static org.lwjgl.system.MemoryUtil.memUTF8;
 import org.lwjgl.system.Platform;
+import org.lwjgl.system.libc.LibCStdio;
 
 import sketch.util.BGFXUtil;
 
@@ -194,10 +202,13 @@ public class App {
                 }
             });
 
+            boolean useCallbacks = true;
+
             try (MemoryStack stack = stackPush()) {
                 BGFXInit init = BGFXInit.malloc(stack);
                 bgfx_init_ctor(init);
                 init
+                    .callback(useCallbacks ? createCallbacks(stack) : null)
                     .resolution(it -> it
                         .width(width)
                         .height(height)
@@ -282,6 +293,62 @@ public class App {
             throw new IllegalArgumentException("Class " + clazz + " could not be accessed");
         }
     }
+
+    // begin (partial) ref BGFXDemoUtil: https://github.com/LWJGL/lwjgl3-demos/blob/cd4a70daa3dad50c6c4a0d95e559d1bb7a349135/src/org/lwjgl/demo/bgfx/BGFXDemoUtil.java
+    private static BGFXCallbackInterface createCallbacks(MemoryStack stack) {
+        return BGFXCallbackInterface.calloc(stack)
+            .vtbl(BGFXCallbackVtbl.calloc(stack)
+                .fatal((_this, _filePath, _line, _code, _str) -> {
+                    if (_code == BGFX_FATAL_DEBUG_CHECK) {
+                        System.out.println("BREAK"); // set debugger breakpoint
+                    } else {
+                        throw new RuntimeException("Fatal error " + _code + ": " + memASCII(_str));
+                    }
+                })
+                .trace_vargs((_this, _filePath, _line, _format, _argList) -> {
+                    try (MemoryStack frame = MemoryStack.stackPush()) {
+                        String filePath = (_filePath != NULL) ? memUTF8(_filePath) : "[n/a]";
+
+                        ByteBuffer buffer = frame.malloc(128); // arbitary size to store formatted message
+                        int length = LibCStdio.nvsnprintf(memAddress(buffer), buffer.remaining(), _format, _argList);
+
+                        if (length > 0) {
+                            String message = memASCII(buffer, length - 1); // bgfx log messages are terminated with the newline character
+                            App.logDebug("bgfx: [" + filePath + " (" + _line + ")] - " + message);
+                        } else {
+                            App.logDebug("bgfx: [" + filePath + " (" + _line + ")] - error: unable to format output: " + memASCII(_format));
+                        }
+                    }
+                })
+                .profiler_begin((_this, _name, _abgr, _filePath, _line) -> {
+
+                })
+                .profiler_begin_literal((_this, _name, _abgr, _filePath, _line) -> {
+
+                })
+                .profiler_end(_this -> {
+
+                })
+                .cache_read_size((_this, _id) -> 0)
+                .cache_read((_this, _id, _data, _size) -> false)
+                .cache_write((_this, _id, _data, _size) -> {
+
+                })
+                .screen_shot((_this, _filePath, _width, _height, _pitch, _data, _size, _yflip) -> {
+
+                })
+                .capture_begin((_this, _width, _height, _pitch, _format, _yflip) -> {
+
+                })
+                .capture_end(_this -> {
+
+                })
+                .capture_frame((_this, _data, _size) -> {
+
+                })
+            );
+    }
+    // end ref BGFXDemoUtil:
 
     public static void main(String clazz, WindowInitSetting windowInitSetting) {
         main(clazz, windowInitSetting, new String[0]);
