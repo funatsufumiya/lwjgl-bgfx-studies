@@ -111,3 +111,8 @@ task runTriangleSketch(type: JavaExec) {
     classpath = sourceSets.example.runtimeClasspath
     main = 'test.TriangleSketch'
 }
+
+task runRedShaderSketch(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.RedShaderSketch'
+}

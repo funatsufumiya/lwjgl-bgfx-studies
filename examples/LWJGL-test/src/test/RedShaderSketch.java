@@ -32,19 +32,20 @@ import sketch.util.BGFXUtil;
 import static sketch.util.BGFXUtil.VertexLayoutType.XYC;
 import static sketch.util.BGFXUtil.byteSizeOf;
 
-public class TriangleSketch extends Sketch {
+public class RedShaderSketch extends Sketch {
     static int width = 640;
     static int height = 480;
 
     private BGFXVertexLayout layout;
 
-    private static final Object[][] kTriangleVertices = {
-        {-0.5f, -0.5f, 0x339933FF},
-        {0.5f, -0.5f, 0x993333FF},
-        {0.0f, 0.5f, 0x333399FF}
+    private static final Object[][] kRectVertices = {
+        {-1.0f, -1.0f, 0x339933FF},
+        {0.0f, -1.0f, 0x993333FF},
+        {0.0f, 1.0f, 0x333399FF},
+        {-1.0f, 1.0f, 0x333399FF}
     };
 
-    int kTriangleIndices[] = {0, 1, 2};
+    int kRectIndices[] = {0, 1, 2, 0, 2, 3};
 
     Matrix4f proj = new Matrix4f();
     FloatBuffer proj_buffer;
@@ -59,62 +60,6 @@ public class TriangleSketch extends Sketch {
         bgfx_set_debug(BGFX_DEBUG_TEXT);
         bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
-        // const bgfx::Caps* caps = bgfx::getCaps();
-
-        // float proj[16];
-        // // -- void mtxOrtho(float* _result, float _left, float _right, float _bottom, float _top, float _near, float _far, float _offset, bool _homogeneousNdc, Handedness::Enum _handedness)
-        // void mtxOrtho(float* _result, float _left, float _right, float _bottom, float _top, float _near, float _far, float _offset, bool _homogeneousNdc, Handedness::Enum _handedness)
-        // {
-        //     const float aa = 2.0f/(_right - _left);
-        //     const float bb = 2.0f/(_top - _bottom);
-        //     const float cc = (_homogeneousNdc ? 2.0f : 1.0f) / (_far - _near);
-        //     const float dd = (_left + _right )/(_left   - _right);
-        //     const float ee = (_top  + _bottom)/(_bottom - _top  );
-        //     const float ff = _homogeneousNdc
-        //         ? (_near + _far)/(_near - _far)
-        //         :  _near        /(_near - _far)
-        //         ;
-
-        //     memSet(_result, 0, sizeof(float)*16);
-        //     _result[ 0] = aa;
-        //     _result[ 5] = bb;
-        //     _result[10] = Handedness::Right == _handedness ? -cc : cc;
-        //     _result[12] = dd + _offset;
-        //     _result[13] = ee;
-        //     _result[14] = ff;
-        //     _result[15] = 1.0f;
-        // }
-
-        // bx::mtxOrtho(
-        //     proj
-        //     , 0.0f
-        //     , (float)m_screenWidth
-        //     , (float)m_screenHeight
-        //     , 0.0f
-        //     , 0.0f
-        //     , 1000.0f
-        //     , 0.0f
-        //     , caps->homogeneousDepth
-        //     );
-
-        // BGFXCaps caps = BGFX.bgfx_get_caps();
-        // // true if [-1, 1] depth range, false if [0, 1]
-        // boolean is_hd = caps.homogeneousDepth();
-        // boolean zZeroToOne = !is_hd;
-
-        // App.logInfo("is zZeroToOne: " + zZeroToOne);
-
-        // // -- setOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
-        // // -- setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne)
-        // proj.setOrtho(
-        //     0.0f,
-        //     (float)width,
-        //     (float)height,
-        //     0.0f,
-        //     0.0f,
-        //     1000.0f,
-        //     zZeroToOne);
-
         // // -- proj.setOrtho2D(left, right, bottom, top);
         proj.setOrtho2D(0.0f, width, height, 0.0f);
 
@@ -125,10 +70,10 @@ public class TriangleSketch extends Sketch {
 
         layout = BGFXUtil.createVertexLayout2D(false, true, 0);
 
-        vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYC, 3), layout, kTriangleVertices);
-        index_buffer = BGFXUtil.createIndexBuffer(kTriangleIndices);
+        vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYC, 4), layout, kRectVertices);
+        index_buffer = BGFXUtil.createIndexBuffer(kRectIndices);
         try {
-            program = BGFXUtil.createBasicShaderProgram();
+            program = BGFXUtil.createRedShaderProgram();
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new RuntimeException("Failed to create shader program");
@@ -145,10 +90,15 @@ public class TriangleSketch extends Sketch {
 
         // draw triangle
 
-        BGFX.bgfx_encoder_set_transform(encoder, proj.get(proj_buffer));
+        float t = elapsedTimeSeconds();
+        float s = 2000f * (float)Math.sin(t);
 
-        bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
-        bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 3);
+        // BGFX.bgfx_encoder_set_transform(encoder, proj.get(proj_buffer));
+        BGFX.bgfx_encoder_set_transform(encoder,
+            proj.scale(s, s, 1.0f).get(proj_buffer));
+
+        bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 4);
+        bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);
 
         bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
         // bgfx_encoder_set_state(encoder,
@@ -165,7 +115,7 @@ public class TriangleSketch extends Sketch {
 
         // Use debug font to print information about this example.
         bgfx_dbg_text_clear(0, false);
-        bgfx_dbg_text_printf(0, 0, 0x0f, "Triangle");
+        bgfx_dbg_text_printf(0, 0, 0x0f, "RedRect");
     }
 
     @Override
@@ -178,6 +128,6 @@ public class TriangleSketch extends Sketch {
     }
 
     public static void main(String[] args) {
-        App.main("test.TriangleSketch", width, height);
+        App.main("test.RedShaderSketch", width, height);
     }
 }

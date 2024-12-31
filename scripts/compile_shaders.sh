@@ -93,3 +93,6 @@ function build {
 
 build fs_basic
 build vs_basic
+
+build fs_red
+build vs_red
