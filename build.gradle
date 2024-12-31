@@ -27,6 +27,9 @@ dependencies {
     // only for NotImplementedException
     implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
+    // math library
+    implementation group: 'org.joml', name: 'joml', version: '1.10.8'
+
     testImplementation 'junit:junit:4.12'
 
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
