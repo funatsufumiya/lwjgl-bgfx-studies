@@ -63,7 +63,9 @@ public class RectSketch extends Sketch {
 
     @Override
     public void draw() {
-        background(0);
+        // background(0);
+        background(125);
+        // background(255);
 
         long encoder = bgfx_encoder_begin(false);
 

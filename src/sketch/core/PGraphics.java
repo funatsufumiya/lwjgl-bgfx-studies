@@ -4,13 +4,13 @@ import org.lwjgl.bgfx.BGFX;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 
 public class PGraphics {
-    public static void background(int rgba) {
+    public static void background_hex(int rgba) {
         BGFX.bgfx_set_view_clear(0, BGFX_CLEAR_COLOR, rgba, 0.0f, 0);
     }
 
     public static void background(float r, float g, float b, float a) {
         int rgba = ((int)(r) << 24) | ((int)(g) << 16) | ((int)(b) << 8) | ((int)(a));
-        background(rgba);
+        background_hex(rgba);
     }
 
     public static void background(float r, float g, float b) {
