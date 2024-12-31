@@ -3,10 +3,7 @@ package test;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_B;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_G;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_R;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEFAULT;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_begin;
@@ -61,14 +58,14 @@ public class RectSketch extends Sketch {
 
         // draw rect
 
-        // bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
-        bgfx_encoder_set_state(encoder,
-            BGFX_STATE_WRITE_R
-                | BGFX_STATE_WRITE_G
-                | BGFX_STATE_WRITE_B
-                | BGFX_STATE_WRITE_A,
-            0
-        );
+        bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
+        // bgfx_encoder_set_state(encoder,
+        //     BGFX_STATE_WRITE_R
+        //         | BGFX_STATE_WRITE_G
+        //         | BGFX_STATE_WRITE_B
+        //         | BGFX_STATE_WRITE_A,
+        //     0
+        // );
 
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);

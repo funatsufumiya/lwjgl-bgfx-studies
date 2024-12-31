@@ -204,4 +204,17 @@ public class BGFXUtil {
     }
 
     // end of (partial) ref BGFXDemoUtil
+    
+    // begin (partial) ref big2-stack/examples/src/triangle.cpp: https://github.com/Paper-Cranes-Ltd/big2-stack/blob/a2d01c42a8f66d120e1621a3600ef60d1aee7a30/examples/src/triangle.cpp
+
+    public static short createEmbeddedShaderProgram(String vs_name, String fs_name) {
+        // return BGFX.bgfx_create_program(
+        //     BGFX
+    }
+
+    public static short createBasicShaderProgram() {
+        return createEmbeddedShaderProgram("vs_basic", "fs_basic");
+    }
+
+    // end of (partial) ref big2-stack/examples/src/triangle.cpp
 }
