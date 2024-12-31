@@ -1,4 +1,4 @@
-## LWJGL BGFX Studies
+# LWJGL BGFX Studies
 
 My studies of the BGFX library using the LWJGL3.
 
