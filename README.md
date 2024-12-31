@@ -23,9 +23,16 @@ bash ./scripts/compile_shaders.sh
 ./gradlew runHelloBGFX
 ```
 
-### Sketch
+### Sketch style hello world
 
 ```bash
 ./gradlew buildExample
 ./gradlew runHelloSketch
+```
+
+### Triangle (WIP)
+
+```bash
+./gradlew buildExample
+./gradlew runTriangleSketch
 ```
