@@ -268,10 +268,6 @@ public class App {
             glfwTerminate();
             Objects.requireNonNull(glfwSetErrorCallback(null)).free();
 
-            while (true) {
-                sketch.draw();
-            }
-
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Class " + clazz + " not found");
         } catch (InstantiationException e) {
