@@ -180,7 +180,7 @@ public class BGFXUtil {
         switch (renderer) {
             case BGFX_RENDERER_TYPE_DIRECT3D11:
             case BGFX_RENDERER_TYPE_DIRECT3D12:
-                resourcePath += "hlsl/";
+                resourcePath += "dx11/";
                 break;
 
             case BGFX_RENDERER_TYPE_OPENGL:

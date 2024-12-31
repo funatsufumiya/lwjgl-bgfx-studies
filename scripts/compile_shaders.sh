@@ -17,7 +17,7 @@ SRC_DIR=$SHADER_DIR/src
 METAL_DIR=$SHADER_DIR/metal
 GLSL_DIR=$SHADER_DIR/glsl
 SPIRV_DIR=$SHADER_DIR/spirv
-HLSL_DIR=$SHADER_DIR/hlsl
+DX_DIR=$SHADER_DIR/dx11
 
 SHADERC=shaderc
 
@@ -71,11 +71,11 @@ function build {
         fi
     elif [ "$PLATFORM" == "windows" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type f -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
+            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type f -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type v -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
+            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type v -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type c -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 1 --disasm
+            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type c -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 1 --disasm
         fi
     elif [ "$PLATFORM" == "linux" ]; then
         if [ $is_fs -eq 1 ]; then
