@@ -143,9 +143,9 @@ public class BGFXUtil {
 
         // if (url == null) {
         if (!path.toFile().exists()) {
-            App.logWarning("Resource not found: " + resourcePath + "/" + name);
+            App.logWarning("Resource not found: " + path);
             App.logWarning("(Please compile shaders or textures before running.)");
-            throw new IOException("Resource not found: " + resourcePath + "/" + name);
+            throw new IOException("Resource not found: " + path);
         }
 
         // int resourceSize = url.openConnection().getContentLength();
