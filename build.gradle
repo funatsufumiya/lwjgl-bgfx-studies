@@ -13,6 +13,7 @@ repositories {
 project.ext.lwjglVersion = "3.3.5"
 project.ext.lwjglNatives = "natives-macos-arm64"
 project.ext.lwjglNatives2 = "natives-windows"
+project.ext.lwjglNatives3 = "natives-linux"
 
 dependencies {
     implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.5'
@@ -37,6 +38,11 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives2"
     // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives2"
     runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives2"
+
+    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives3"
+    runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives3"
+    // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives3"
+    runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives3"
 }
 
 sourceSets {
