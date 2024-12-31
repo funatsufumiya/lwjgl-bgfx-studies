@@ -71,6 +71,9 @@ public class TriangleSketch extends Sketch {
 
         // draw triangle
 
+        bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
+        bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 3);
+
         bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
         // bgfx_encoder_set_state(encoder,
         //     BGFX_STATE_WRITE_R
@@ -80,8 +83,6 @@ public class TriangleSketch extends Sketch {
         //     0
         // );
 
-        bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
-        bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);
         bgfx_encoder_submit(encoder, 0, program, 0, 0);
 
         bgfx_encoder_end(encoder);
