@@ -28,7 +28,7 @@ import sketch.util.BGFXUtil;
 import static sketch.util.BGFXUtil.VertexLayoutType.XYC;
 import static sketch.util.BGFXUtil.byteSizeOf;
 
-public class RectSketch extends Sketch {
+public class TriangleSketch extends Sketch {
     private BGFXVertexLayout layout;
 
     private static final Object[][] kTriangleVertices = {
@@ -69,7 +69,7 @@ public class RectSketch extends Sketch {
 
         long encoder = bgfx_encoder_begin(false);
 
-        // draw rect
+        // draw triangle
 
         bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
         // bgfx_encoder_set_state(encoder,
@@ -100,6 +100,6 @@ public class RectSketch extends Sketch {
     }
 
     public static void main(String[] args) {
-        App.main("test.RectSketch", 640, 480);
+        App.main("test.TriangleSketch", 640, 480);
     }
 }

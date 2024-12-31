@@ -97,3 +97,8 @@ task runRectSketch(type: JavaExec) {
     classpath = sourceSets.example.runtimeClasspath
     main = 'test.RectSketch'
 }
+
+task runTriangleSketch(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.TriangleSketch'
+}
