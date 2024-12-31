@@ -124,7 +124,11 @@ public class BGFXUtil {
 
   // begin (partial) ref BGFXDemoUtil: https://github.com/LWJGL/lwjgl3-demos/blob/cd4a70daa3dad50c6c4a0d95e559d1bb7a349135/src/org/lwjgl/demo/bgfx/BGFXDemoUtil.java
 
-  private static BGFXReleaseFunctionCallback releaseMemoryCb = BGFXReleaseFunctionCallback.create((_ptr, _userData) -> nmemFree(_ptr));
+  private static BGFXReleaseFunctionCallback releaseMemoryCb = BGFXReleaseFunctionCallback.create(
+    (_ptr, _userData) -> {
+        App.logVerbose("bgfx: releasing memory at " + _ptr);
+        nmemFree(_ptr);
+    });
 
     public static void dispose() {
         releaseMemoryCb.free();
