@@ -1,1 +1,1 @@
-shaders here is almost copied from https://thatonegamedev.com/cpp/hello-bgfx/
+shader [source](./src) is almost copied from https://thatonegamedev.com/cpp/hello-bgfx/
