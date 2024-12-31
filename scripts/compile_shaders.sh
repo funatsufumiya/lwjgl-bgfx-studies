@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# check if shaderc exists
+if ! [ -x "$(command -v shaderc)" ]; then
+    echo "[Error] shaderc is not installed." >&2
+    echo "        Please install shaderc from bgfx-tools." >&2
+    exit 1
+fi
+
 PROJECT_DIR=$(dirname $(dirname $(realpath $0)))
 echo "Project directory: $PROJECT_DIR"
 
