@@ -8,6 +8,7 @@ import org.lwjgl.bgfx.BGFX;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
+import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_WIREFRAME;
 import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEFAULT;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
@@ -44,6 +45,12 @@ public class RedShaderSketch extends Sketch {
         {0.0f, 1.0f, 0x333399FF},
         {-1.0f, 1.0f, 0x333399FF}
     };
+    // private static final Object[][] kRectVertices = {
+    //     {-100.0f, -100.0f, 0x339933FF},
+    //     {0.0f, -100.0f, 0x993333FF},
+    //     {0.0f, 100.0f, 0x333399FF},
+    //     {-100.0f, 100.0f, 0x333399FF}
+    // };
 
     int kRectIndices[] = {0, 1, 2, 0, 2, 3};
 
@@ -57,7 +64,9 @@ public class RedShaderSketch extends Sketch {
     @Override
     public void setup() {
         // Enable debug text.
-        bgfx_set_debug(BGFX_DEBUG_TEXT);
+        // bgfx_set_debug(BGFX_DEBUG_TEXT);
+        bgfx_set_debug(BGFX_DEBUG_TEXT | BGFX_DEBUG_WIREFRAME);
+        // bgfx_set_debug(BGFX_DEBUG_TEXT | BGFX_DEBUG_STATS);
         bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
         // // -- proj.setOrtho2D(left, right, bottom, top);
