@@ -5,7 +5,6 @@ echo "Project directory: $PROJECT_DIR"
 
 SHADER_DIR=$PROJECT_DIR/res/shaders
 echo "Shader directory: $SHADER_DIR"
-echo "---"
 
 SRC_DIR=$SHADER_DIR/src
 METAL_DIR=$SHADER_DIR/metal
@@ -31,10 +30,17 @@ if [ -z "$PLATFORM" ]; then
         PLATFORM=osx
     elif [[ "$OSTYPE" == "linux-gnu" ]]; then
         PLATFORM=linux
-    else
+    elif [[ "$OSTYPE" == "msys" ]]; then
         PLATFORM=windows
+    else
+        PLATFORM=windows # WORKAROUND
     fi
+    echo "Platform: $PLATFORM (auto detected)"
+else
+    echo "Platform: $PLATFORM (specified by env)"
 fi
+
+echo "---"
 
 function build {
     # NOTE: see detail from https://github.com/bkaradzic/bgfx/blob/master/scripts/shader.mk
