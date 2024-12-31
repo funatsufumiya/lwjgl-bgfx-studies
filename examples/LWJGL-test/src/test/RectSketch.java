@@ -1,11 +1,16 @@
 package test;
 
+import java.io.IOException;
+
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
 import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEFAULT;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
+import static org.lwjgl.bgfx.BGFX.bgfx_destroy_index_buffer;
+import static org.lwjgl.bgfx.BGFX.bgfx_destroy_program;
+import static org.lwjgl.bgfx.BGFX.bgfx_destroy_vertex_buffer;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_begin;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_end;
 import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_index_buffer;
@@ -48,6 +53,12 @@ public class RectSketch extends Sketch {
 
         vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYC, 3), layout, kTriangleVertices);
         index_buffer = BGFXUtil.createIndexBuffer(kTriangleIndices);
+        try {
+            program = BGFXUtil.createBasicShaderProgram();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Failed to create shader program");
+        }
     }
 
     @Override
@@ -76,6 +87,14 @@ public class RectSketch extends Sketch {
         // Use debug font to print information about this example.
         bgfx_dbg_text_clear(0, false);
         bgfx_dbg_text_printf(0, 0, 0x0f, "Rect");
+    }
+
+    @Override
+    public void exit() {
+        bgfx_destroy_program(program);
+        bgfx_destroy_index_buffer(index_buffer);
+        bgfx_destroy_vertex_buffer(vertex_buffer);
+        layout.free();
     }
 
     public static void main(String[] args) {

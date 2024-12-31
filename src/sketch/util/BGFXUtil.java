@@ -1,6 +1,10 @@
 package sketch.util;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.lwjgl.bgfx.BGFX;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_COLOR0;
@@ -10,10 +14,28 @@ import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TEXCOORD0;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TYPE_FLOAT;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TYPE_UINT8;
 import static org.lwjgl.bgfx.BGFX.BGFX_BUFFER_NONE;
+import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_DIRECT3D11;
+import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_DIRECT3D12;
+import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_METAL;
+import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_OPENGL;
+import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_VULKAN;
+import static org.lwjgl.bgfx.BGFX.BGFX_TEXTURE_NONE;
+import static org.lwjgl.bgfx.BGFX.bgfx_create_shader;
+import static org.lwjgl.bgfx.BGFX.bgfx_create_texture;
+import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_name;
+import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_type;
+import static org.lwjgl.bgfx.BGFX.bgfx_make_ref_release;
 import org.lwjgl.bgfx.BGFXMemory;
+import org.lwjgl.bgfx.BGFXReleaseFunctionCallback;
 import org.lwjgl.bgfx.BGFXVertexLayout;
+import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.system.MemoryUtil.memAlloc;
+import static org.lwjgl.system.MemoryUtil.nmemFree;
+
+import sketch.App;
 
 public class BGFXUtil {
+
 //   public static BGFXMemory makeRef(IntBuffer buffer) {
 //     if (buffer == null) {
 //       return null;
@@ -101,6 +123,132 @@ public class BGFXUtil {
     }
 
   // begin (partial) ref BGFXDemoUtil: https://github.com/LWJGL/lwjgl3-demos/blob/cd4a70daa3dad50c6c4a0d95e559d1bb7a349135/src/org/lwjgl/demo/bgfx/BGFXDemoUtil.java
+
+  private static BGFXReleaseFunctionCallback releaseMemoryCb = BGFXReleaseFunctionCallback.create((_ptr, _userData) -> nmemFree(_ptr));
+
+    public static void dispose() {
+        releaseMemoryCb.free();
+    }
+
+  private static final String SHADER_RESOURCE_PATH = "/res/shaders/";
+  private static final String TEXTURE_RESOURCE_PATH = "/res/textures/";
+
+  private static ByteBuffer loadResource(String resourcePath, String name) throws IOException {
+
+        String pwd = System.getProperty("user.dir");
+
+        // URL url = BGFXUtil.class.getResource(resourcePath + name);
+        // Path path = Paths.get(resourcePath + name);
+        Path path = Paths.get(pwd + resourcePath + name);
+
+        // if (url == null) {
+        if (!path.toFile().exists()) {
+            throw new IOException("Resource not found: " + resourcePath + "/" + name);
+        }
+
+        // int resourceSize = url.openConnection().getContentLength();
+        int resourceSize = (int) path.toFile().length();
+
+        // App.logInfo("bgfx: loading resource '" + url.getFile() + "' (" + resourceSize + " bytes)");
+        App.logInfo("bgfx: loading resource '" + path + "' (" + resourceSize + " bytes)");
+
+        ByteBuffer resource = memAlloc(resourceSize);
+
+        // try (BufferedInputStream bis = new BufferedInputStream(url.openStream())) {
+        try (BufferedInputStream bis = new BufferedInputStream(path.toUri().toURL().openStream())) {
+            int b;
+            do {
+                b = bis.read();
+                if (b != -1) {
+                    resource.put((byte) b);
+                }
+            } while (b != -1);
+        }
+
+        resource.flip();
+
+        return resource;
+    }
+
+  public static short loadShader(String name) throws IOException {
+
+        String resourcePath = SHADER_RESOURCE_PATH;
+        int renderer = bgfx_get_renderer_type();
+
+        switch (renderer) {
+            case BGFX_RENDERER_TYPE_DIRECT3D11:
+            case BGFX_RENDERER_TYPE_DIRECT3D12:
+                resourcePath += "hlsl/";
+                break;
+
+            case BGFX_RENDERER_TYPE_OPENGL:
+                resourcePath += "glsl/";
+                break;
+
+            case BGFX_RENDERER_TYPE_METAL:
+                resourcePath += "metal/";
+                break;
+            
+            case BGFX_RENDERER_TYPE_VULKAN:
+                resourcePath += "spirv/";
+                break;
+
+            default:
+                throw new IOException("No demo shaders supported for " + bgfx_get_renderer_name(renderer) + " renderer");
+        }
+
+        ByteBuffer shaderCode = loadResource(resourcePath, name + ".bin");
+
+        return bgfx_create_shader(bgfx_make_ref_release(shaderCode, releaseMemoryCb, NULL));
+    }
+
+    public static short loadShader(char[] shaderCodeGLSL, char[] shaderCodeSPIRV, char[] shaderCodeD3D11, char[] shaderCodeMtl) throws IOException {
+        char[] sc;
+
+        int renderer = bgfx_get_renderer_type();
+        switch (renderer) {
+
+            case BGFX_RENDERER_TYPE_DIRECT3D11:
+            case BGFX_RENDERER_TYPE_DIRECT3D12:
+                sc = shaderCodeD3D11;
+                break;
+
+            case BGFX_RENDERER_TYPE_OPENGL:
+                sc = shaderCodeGLSL;
+                break;
+
+            case BGFX_RENDERER_TYPE_METAL:
+                sc = shaderCodeMtl;
+                break;
+
+            case BGFX_RENDERER_TYPE_VULKAN:
+                sc = shaderCodeSPIRV;
+                break;
+
+            default:
+                throw new IOException("No demo shaders supported for " + bgfx_get_renderer_name(renderer) + " renderer");
+        }
+
+        ByteBuffer shaderCode = memAlloc(sc.length);
+        // ByteBuffer shaderCode = ByteBuffer.allocateDirect(sc.length);
+
+        for (char c : sc) {
+            shaderCode.put((byte) c);
+        }
+
+        shaderCode.flip();
+
+        return bgfx_create_shader(bgfx_make_ref_release(shaderCode, releaseMemoryCb, NULL));
+    }
+
+    public static short loadTexture(String fileName) throws IOException {
+
+        ByteBuffer textureData = loadResource(TEXTURE_RESOURCE_PATH, fileName);
+
+        BGFXMemory textureMemory = bgfx_make_ref_release(textureData, releaseMemoryCb, NULL);
+
+        return bgfx_create_texture(textureMemory, BGFX_TEXTURE_NONE, 0, null);
+    }
 
   public static BGFXVertexLayout createVertexLayout3D(boolean withNormals, boolean withColor, int numUVs) {
 
@@ -207,13 +355,15 @@ public class BGFXUtil {
     
     // begin (partial) ref big2-stack/examples/src/triangle.cpp: https://github.com/Paper-Cranes-Ltd/big2-stack/blob/a2d01c42a8f66d120e1621a3600ef60d1aee7a30/examples/src/triangle.cpp
 
-    public static short createEmbeddedShaderProgram(String vs_name, String fs_name) {
-        // return BGFX.bgfx_create_program(
-        //     BGFX
+    public static short createShaderProgram(String vs_name, String fs_name) throws IOException {
+        return BGFX.bgfx_create_program(
+                BGFXUtil.loadShader(vs_name),
+                BGFXUtil.loadShader(fs_name),
+                true);
     }
 
-    public static short createBasicShaderProgram() {
-        return createEmbeddedShaderProgram("vs_basic", "fs_basic");
+    public static short createBasicShaderProgram() throws IOException {
+        return createShaderProgram("vs_basic", "fs_basic");
     }
 
     // end of (partial) ref big2-stack/examples/src/triangle.cpp
