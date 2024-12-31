@@ -88,7 +88,7 @@ public class TriangleSketch extends Sketch {
 
         // Use debug font to print information about this example.
         bgfx_dbg_text_clear(0, false);
-        bgfx_dbg_text_printf(0, 0, 0x0f, "Rect");
+        bgfx_dbg_text_printf(0, 0, 0x0f, "Triangle");
     }
 
     @Override
