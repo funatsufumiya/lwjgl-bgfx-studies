@@ -48,30 +48,30 @@ function build {
 
     if [ "$PLATFORM" == "osx" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type f -o $METAL_DIR/$shader_name.bin --platform osx -p metal
+            compile -f $SRC_DIR/$shader_name.sc --type f -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type v -o $METAL_DIR/$shader_name.bin --platform osx -p metal
+            compile -f $SRC_DIR/$shader_name.sc --type v -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type c -o $METAL_DIR/$shader_name.bin --platform osx -p metal
+            compile -f $SRC_DIR/$shader_name.sc --type c -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
         fi
     elif [ "$PLATFORM" == "windows" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type f -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3
+            compile -f $SRC_DIR/$shader_name.sc --type f -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type v -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3
+            compile -f $SRC_DIR/$shader_name.sc --type v -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type c -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 1
+            compile -f $SRC_DIR/$shader_name.sc --type c -o $HLSL_DIR/$shader_name.bin --platform windows -p s_5_0 -O 1 --disasm
         fi
     elif [ "$PLATFORM" == "linux" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type f -o $GLSL_DIR/$shader_name.bin --platform linux -p 120
-            compile -f $SRC_DIR/$shader_name.sc --type f -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv
+            compile -f $SRC_DIR/$shader_name.sc --type f -o $GLSL_DIR/$shader_name.bin --platform linux -p 120 --disasm
+            compile -f $SRC_DIR/$shader_name.sc --type f -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type v -o $GLSL_DIR/$shader_name.bin --platform linux -p 120
-            compile -f $SRC_DIR/$shader_name.sc --type v -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv
+            compile -f $SRC_DIR/$shader_name.sc --type v -o $GLSL_DIR/$shader_name.bin --platform linux -p 120 --disasm
+            compile -f $SRC_DIR/$shader_name.sc --type v -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc --type c -o $GLSL_DIR/$shader_name.bin --platform linux -p 430
-            compile -f $SRC_DIR/$shader_name.sc --type c -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv
+            compile -f $SRC_DIR/$shader_name.sc --type c -o $GLSL_DIR/$shader_name.bin --platform linux -p 430 --disasm
+            compile -f $SRC_DIR/$shader_name.sc --type c -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
         fi
     fi
 }
