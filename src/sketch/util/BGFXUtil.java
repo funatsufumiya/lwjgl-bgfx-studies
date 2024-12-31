@@ -126,11 +126,12 @@ public class BGFXUtil {
 
   private static BGFXReleaseFunctionCallback releaseMemoryCb = BGFXReleaseFunctionCallback.create(
     (_ptr, _userData) -> {
-        App.logVerbose("bgfx: releasing memory at " + _ptr);
+        App.logVerbose("BGFXUtil: releasing memory at " + _ptr);
         nmemFree(_ptr);
     });
 
     public static void dispose() {
+        App.logVerbose("BGFXUtil: dispose()");
         releaseMemoryCb.free();
     }
 

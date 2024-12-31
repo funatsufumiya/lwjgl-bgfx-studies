@@ -44,6 +44,8 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import org.lwjgl.system.Platform;
 
+import sketch.util.BGFXUtil;
+
 public class App {
     static {
         System.setProperty("java.awt.headless", "true");
@@ -261,6 +263,8 @@ public class App {
             sketch.exit();
 
             bgfx_shutdown();
+
+            BGFXUtil.dispose();
 
             glfwFreeCallbacks(window);
             glfwDestroyWindow(window);
