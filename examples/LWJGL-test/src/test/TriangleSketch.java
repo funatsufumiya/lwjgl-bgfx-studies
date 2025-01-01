@@ -73,13 +73,7 @@ public class TriangleSketch extends Sketch {
         // bgfx_set_debug(BGFX_DEBUG_TEXT | BGFX_DEBUG_STATS);
         bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
-        // // -- proj.setOrtho2D(left, right, bottom, top);
-        // proj.setOrtho2D(0.0f, width, height, 0.0f);
-
-        // App.logInfo("proj: \n" + proj.toString());
-
         proj_buffer = MemoryUtil.memAllocFloat(16);
-        // proj_buffer = FloatBuffer.allocate(16);
         view_buffer = MemoryUtil.memAllocFloat(16);
         model_buffer = MemoryUtil.memAllocFloat(16);
 
@@ -113,8 +107,12 @@ public class TriangleSketch extends Sketch {
 
         // draw triangle
 
+        float t = elapsedTimeSeconds();
+        float s = (float) Math.sin(t) * 100.0f;
+
         BGFX.bgfx_encoder_set_transform(encoder,
-            model.identity().rotateY(elapsedTimeSeconds()).get4x4(model_buffer)
+            // model.identity().rotateY(elapsedTimeSeconds()).get4x4(model_buffer)
+            model.translation(s, s, 0.0f).rotateY(t).get4x4(model_buffer)
         );
 
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
