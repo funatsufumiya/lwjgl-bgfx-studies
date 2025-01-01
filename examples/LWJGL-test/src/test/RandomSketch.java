@@ -79,6 +79,13 @@ public class RandomSketch extends Sketch {
 
         layout = BGFXUtil.createVertexLayout2D(false, true, 0);
 
+        // debug log
+        // ShortBuffer attrs = layout.attributes();
+        App.logInfo("layout stride: " + layout.stride());
+
+        App.logInfo("byteSizeOf(XYC, 3): " + byteSizeOf(XYC, 3));
+        App.logInfo("kTriangleIndices.length * 2: " + kTriangleIndices.length * 2);
+
         vertices = MemoryUtil.memAlloc(byteSizeOf(XYC, 3));
         indices = MemoryUtil.memAlloc(kTriangleIndices.length * 2);
 
