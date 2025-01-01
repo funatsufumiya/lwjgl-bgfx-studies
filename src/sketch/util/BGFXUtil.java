@@ -412,5 +412,9 @@ public class BGFXUtil {
         return createShaderProgram("vs_red", "fs_red");
     }
 
+    public static short createRandomShaderProgram() throws IOException {
+        return createShaderProgram("vs_rand", "fs_rand");
+    }
+
     // end of (partial) ref big2-stack/examples/src/triangle.cpp
 }

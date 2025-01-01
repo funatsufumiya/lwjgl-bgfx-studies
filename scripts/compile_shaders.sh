@@ -96,3 +96,6 @@ build vs_basic
 
 build fs_red
 build vs_red
+
+build fs_rand
+build vs_rand
