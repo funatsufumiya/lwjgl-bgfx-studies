@@ -340,7 +340,8 @@ public class BGFXUtil {
     }
 
     public static short createVertexBuffer(int byte_size, BGFXVertexLayout layout, Object[][] vertices){
-        ByteBuffer buffer = ByteBuffer.allocateDirect(byte_size);
+        // ByteBuffer buffer = ByteBuffer.allocateDirect(byte_size); // Should use memAlloc()
+        ByteBuffer buffer = memAlloc(byte_size);
         return createVertexBuffer(buffer, layout, vertices);
     }
 
@@ -350,7 +351,8 @@ public class BGFXUtil {
     }
 
     public static short createIndexBuffer(int[] indices) {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(indices.length * 2);
+        // ByteBuffer buffer = ByteBuffer.allocateDirect(indices.length * 2); // Should use memAlloc()
+        ByteBuffer buffer = memAlloc(indices.length * 2);
         return createIndexBuffer(buffer, indices);
     }
 
