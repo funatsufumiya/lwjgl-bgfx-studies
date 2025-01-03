@@ -5,7 +5,9 @@ import java.io.IOException;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEFAULT;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_RGB;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
 import static org.lwjgl.bgfx.BGFX.bgfx_destroy_index_buffer;
@@ -74,14 +76,12 @@ public class TriangleSketch extends Sketch {
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 3);
 
-        bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
-        // bgfx_encoder_set_state(encoder,
-        //     BGFX_STATE_WRITE_R
-        //         | BGFX_STATE_WRITE_G
-        //         | BGFX_STATE_WRITE_B
-        //         | BGFX_STATE_WRITE_A,
-        //     0
-        // );
+        // bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
+        bgfx_encoder_set_state(encoder,
+            BGFX_STATE_WRITE_RGB
+                | BGFX_STATE_WRITE_A,
+            0
+        );
 
         bgfx_encoder_submit(encoder, 0, program, 0, 0);
 
