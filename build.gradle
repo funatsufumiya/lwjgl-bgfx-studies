@@ -35,7 +35,9 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
     // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives"
+    // runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives"
+    // use custom debug jar instead of the official one
+    runtimeOnly files('lib/lwjgl-bgfx-natives-macos-arm64-debug.jar')
 
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives2"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives2"
