@@ -1,3 +1,0 @@
-[submodule "third_party/lwjgl3"]
-	path = third_party/lwjgl3
-	url = https://github.com/LWJGL/lwjgl3.git
