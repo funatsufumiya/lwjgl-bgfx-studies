@@ -175,7 +175,7 @@ public class BGFXUtil {
             } while (b != -1);
         }
 
-        // debug (arbitrary add abc)
+        // // debug (arbitrary add abc)
         // resource.put((byte) 'a');
         // resource.put((byte) 'b');
         // resource.put((byte) 'c');

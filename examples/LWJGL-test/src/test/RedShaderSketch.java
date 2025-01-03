@@ -87,6 +87,13 @@ public class RedShaderSketch extends Sketch {
             ex.printStackTrace();
             throw new RuntimeException("Failed to create shader program");
         }
+
+        // check program is valid
+        if (BGFX.BGFX_HANDLE_IS_VALID(program)) {
+            App.logInfo("program handle is valid: " + program);
+        } else {
+            App.logWarning("program handle is invalid: " + program);
+        }
     }
 
     @Override
