@@ -30,9 +30,16 @@ bash ./scripts/compile_shaders.sh
 ./gradlew runHelloSketch
 ```
 
-### Triangle (WIP)
+### Triangle
 
 ```bash
 ./gradlew buildExample
 ./gradlew runTriangleSketch
 ```
+
+## Acknowledgements
+
+This project is mainly based on the following projects (mixtures of them):
+
+- https://github.com/funatsufumiya/hello_bgfx_triangle (applying latest update from https://thatonegamedev.com/cpp/hello-bgfx/, based on https://github.com/Paper-Cranes-Ltd/big2-stack)
+- https://github.com/LWJGL/lwjgl3-demos
