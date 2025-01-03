@@ -1,4 +1,4 @@
-Processing LWJGL Library BGFX Fork
+LWJGL BGFX Studies
 ======
 
 Copyright 2024-2025 Fumiya Funatsu
