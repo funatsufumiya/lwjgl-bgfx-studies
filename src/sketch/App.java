@@ -217,7 +217,6 @@ public class App {
                         .reset(BGFX_RESET_VSYNC));
 
                 switch (Platform.get()) {
-                    case FREEBSD:
                     case LINUX:
                         if (glfwGetPlatform() == GLFW_PLATFORM_WAYLAND) {
                             App.logInfo("Using Wayland Window");

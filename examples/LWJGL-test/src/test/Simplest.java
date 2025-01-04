@@ -117,7 +117,6 @@ public final class Simplest {
                     .reset(BGFX_RESET_VSYNC));
 
             switch (Platform.get()) {
-                case FREEBSD:
                 case LINUX:
                     if (glfwGetPlatform() == GLFW_PLATFORM_WAYLAND) {
                         init.platformData()

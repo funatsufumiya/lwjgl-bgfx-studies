@@ -10,16 +10,21 @@ repositories {
     mavenCentral()
 }
 
-project.ext.lwjglVersion = "3.3.5"
+// project.ext.lwjglVersion = "3.3.5"
+project.ext.lwjglVersion = "3.3.3"
 project.ext.lwjglNatives = "natives-macos-arm64"
 project.ext.lwjglNatives2 = "natives-windows"
 project.ext.lwjglNatives3 = "natives-linux"
 
 dependencies {
-    implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.5'
-    implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.5'
-    // implementation group: 'org.lwjgl', name: 'lwjgl-opengl', version: '3.3.5'
-    implementation group: 'org.lwjgl', name: 'lwjgl-bgfx', version: '3.3.5'
+    implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.3'
+    implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.3'
+    implementation group: 'org.lwjgl', name: 'lwjgl-bgfx', version: '3.3.3'
+
+    // implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.5'
+    // implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.5'
+    // implementation group: 'org.lwjgl', name: 'lwjgl-bgfx', version: '3.3.5'
+
     implementation(group: 'org.processing', name: 'core', version: '4.3.1') {
         exclude group: 'org.jogamp.jogl'
         exclude group: 'org.jogamp.gluegen'
@@ -34,17 +39,14 @@ dependencies {
 
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
-    // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives"
 
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives2"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives2"
-    // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives2"
     runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives2"
 
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives3"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives3"
-    // runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives3"
     runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives3"
 }
 
