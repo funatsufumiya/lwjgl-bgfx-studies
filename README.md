@@ -31,6 +31,7 @@ bash ./scripts/compile_shaders.sh
 - Background (`./gradlew runBGSketch`)
 - Triangle (`./gradlew runTriangleSketch`)
 - Rectangle (`./gradlew runRectSketch`)
+- Triangle 3D (`./gradlew runTriangle3DSketch`)
 
 ## Acknowledgements
 
