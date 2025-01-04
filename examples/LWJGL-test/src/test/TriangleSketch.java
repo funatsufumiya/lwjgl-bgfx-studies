@@ -3,10 +3,7 @@ package test;
 import java.io.IOException;
 
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
-import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_CULL_CW;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEPTH_TEST_LESS;
 import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
 import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_RGB;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
@@ -50,7 +47,8 @@ public class TriangleSketch extends Sketch {
     public void setup() {
         // Enable debug text.
         bgfx_set_debug(BGFX_DEBUG_TEXT);
-        bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
+        // bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
+        bgfx_set_view_clear(0, BGFX_CLEAR_COLOR, 0x303030ff, 1.0f, 0);
 
         layout = BGFXUtil.createVertexLayout2D(false, true, 0);
 

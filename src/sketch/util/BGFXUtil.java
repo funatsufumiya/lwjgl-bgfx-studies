@@ -66,13 +66,16 @@ public class BGFXUtil {
 //   }
 
   public enum VertexLayoutType {
-    XYC
+    XYC,
+    XYZC
   }
 
   public static int byteSizeOf(VertexLayoutType type, int count) {
     switch (type) {
       case XYC:
         return (2 * 4 + 4) * count;
+      case XYZC:
+        return (3 * 4 + 4) * count;
       default:
         throw new RuntimeException("Invalid vertex layout type");
     }
@@ -414,12 +417,8 @@ public class BGFXUtil {
         return createShaderProgram("vs_basic", "fs_basic");
     }
 
-    public static short createRedShaderProgram() throws IOException {
-        return createShaderProgram("vs_red", "fs_red");
-    }
-
-    public static short createRandomShaderProgram() throws IOException {
-        return createShaderProgram("vs_rand", "fs_rand");
+    public static short createBasic3DShaderProgram() throws IOException {
+        return createShaderProgram("vs_basic3d", "fs_basic3d");
     }
 
     // end of (partial) ref big2-stack/examples/src/triangle.cpp

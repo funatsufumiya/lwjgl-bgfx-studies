@@ -14,6 +14,7 @@ SHADER_DIR=$PROJECT_DIR/res/shaders
 echo "Shader directory: $SHADER_DIR"
 
 SRC_DIR=$SHADER_DIR/src
+SRC_COMMON_DIR=$SHADER_DIR/src/common
 METAL_DIR=$SHADER_DIR/metal
 GLSL_DIR=$SHADER_DIR/glsl
 SPIRV_DIR=$SHADER_DIR/spirv
@@ -52,44 +53,47 @@ echo "---"
 function build {
     # NOTE: see detail from https://github.com/bkaradzic/bgfx/blob/master/scripts/shader.mk
 
-    shader_name=$1
+    shader_dir=$1
+    shader_name=$2
 
     # check shader name begins from fs, vs, or cs
     is_fs=$(echo $shader_name | grep -c "^fs")
     is_vs=$(echo $shader_name | grep -c "^vs")
     is_cs=$(echo $shader_name | grep -c "^cs")
 
-    FLAGS="-i $SRC_DIR"
+    FLAGS="-i $SRC_COMMON_DIR"
 
     if [ "$PLATFORM" == "osx" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type f -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type f -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type v -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type v -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type c -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type c -o $METAL_DIR/$shader_name.bin --platform osx -p metal --disasm
         fi
     elif [ "$PLATFORM" == "windows" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type f -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type f -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type v -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type v -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 3 --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type c -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 1 --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type c -o $DX_DIR/$shader_name.bin --platform windows -p s_5_0 -O 1 --disasm
         fi
     elif [ "$PLATFORM" == "linux" ]; then
         if [ $is_fs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type f -o $GLSL_DIR/$shader_name.bin --platform linux -p 120 --disasm
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type f -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type f -o $GLSL_DIR/$shader_name.bin --platform linux -p 120 --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type f -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
         elif [ $is_vs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type v -o $GLSL_DIR/$shader_name.bin --platform linux -p 120 --disasm
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type v -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type v -o $GLSL_DIR/$shader_name.bin --platform linux -p 120 --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type v -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
         elif [ $is_cs -eq 1 ]; then
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type c -o $GLSL_DIR/$shader_name.bin --platform linux -p 430 --disasm
-            compile -f $SRC_DIR/$shader_name.sc $FLAGS --type c -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type c -o $GLSL_DIR/$shader_name.bin --platform linux -p 430 --disasm
+            compile -f $SRC_DIR/$shader_dir/$shader_name.sc $FLAGS --type c -o $SPIRV_DIR/$shader_name.bin --platform linux -p spirv --disasm
         fi
     fi
 }
 
-build fs_basic
-build vs_basic
+build basic fs_basic
+build basic vs_basic
+build basic3d fs_basic3d
+build basic3d vs_basic3d

@@ -107,6 +107,11 @@ task runTriangleSketch(type: JavaExec) {
     main = 'test.TriangleSketch'
 }
 
+task runTriangle3DSketch(type: JavaExec) {
+    classpath = sourceSets.example.runtimeClasspath
+    main = 'test.Triangle3DSketch'
+}
+
 task runRectSketch(type: JavaExec) {
     classpath = sourceSets.example.runtimeClasspath
     main = 'test.RectSketch'
