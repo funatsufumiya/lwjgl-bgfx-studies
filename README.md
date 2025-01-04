@@ -24,6 +24,8 @@ bash ./scripts/compile_shaders.sh
 ./gradlew buildExample
 ```
 
+NOTE: This command is optional when execute [Run](#run) commands. (Run commands `dependsOn(buildExample)`.)
+
 ## Run
 
 - Basic, plain BGFX (`./gradlew runHelloBGFX`)
