@@ -89,6 +89,7 @@ def runExample(task, mainClassName) {
 def createExampleTasks(List<String> tasks) {
     tasks.each { className ->
         project.tasks.create(name: "run${className}", type: JavaExec) {
+            dependsOn(buildExample)
             classpath = sourceSets.example.runtimeClasspath
             main = "test.${className}"
         }
@@ -107,6 +108,7 @@ createExampleTasks([
 ])
 
 task runE(type: JavaExec) {
+    dependsOn(buildExample)
     if (project.hasProperty('c') && project.c) {
         runExample(it, project.c)
     }else{
