@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
@@ -53,6 +54,9 @@ public class Triangle3DSketch extends Sketch {
 
     int kTriangle3DIndices[] = {0, 1, 2};
 
+    ByteBuffer vertices;
+    ByteBuffer indices;
+
     short vertex_buffer = -1;
     short index_buffer = -1;
     short program = -1;
@@ -73,8 +77,12 @@ public class Triangle3DSketch extends Sketch {
 
         layout = BGFXUtil.createVertexLayout3D(false, true, 0);
 
-        vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYZC, 3), layout, kTriangle3DVertices);
-        index_buffer = BGFXUtil.createIndexBuffer(kTriangle3DIndices);
+        // vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYZC, 3), layout, kTriangle3DVertices);
+        // index_buffer = BGFXUtil.createIndexBuffer(kTriangle3DIndices);
+        vertices = MemoryUtil.memAlloc(byteSizeOf(XYZC, 3));
+        indices = MemoryUtil.memAlloc(kTriangle3DIndices.length * 2);
+        vertex_buffer = BGFXUtil.createVertexBuffer(vertices, layout, kTriangle3DVertices);
+        index_buffer = BGFXUtil.createIndexBuffer(indices, kTriangle3DIndices);
 
         viewBuf = MemoryUtil.memAllocFloat(16);
         projBuf = MemoryUtil.memAllocFloat(16);
@@ -154,6 +162,9 @@ public class Triangle3DSketch extends Sketch {
         MemoryUtil.memFree(projBuf);
         MemoryUtil.memFree(modelBuf);
         layout.free();
+
+        MemoryUtil.memFree(vertices);
+        MemoryUtil.memFree(indices);
     }
 
     public static void main(String[] args) {
