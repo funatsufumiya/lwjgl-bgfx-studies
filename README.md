@@ -8,7 +8,7 @@ My studies of the BGFX library using the LWJGL3. Working on Win/Mac/Linux, DX12/
 
 ## Compiling Shaders
 
-NOTE: Most of precompiled shaders are already included in this repository. (The process below is only needed when you want to update the shaders.)
+**NOTE**: Most of precompiled shaders are already included in this repository. (The process below is only needed when you want to update the shaders.)
 
 - firstly, install bgfx-tools from [for mac](https://www.lwjgl.org/browse/release/3.3.5/macosx/arm64/bgfx-tools), [for win](https://www.lwjgl.org/browse/release/3.3.5/windows/x64/bgfx-tools) or [for linux](https://www.lwjgl.org/browse/release/3.3.5/linux/x64/bgfx-tools)
     - after downloading, please copy `shaderc` to `PATH` directory
@@ -24,7 +24,7 @@ bash ./scripts/compile_shaders.sh
 ./gradlew buildExample
 ```
 
-NOTE: This command is optional when execute [Run](#run) commands. (Run commands `dependsOn(buildExample)`.)
+**NOTE**: This command is optional when execute [Run](#run) commands. (Run commands `dependsOn(buildExample)`.)
 
 ## Run
 
