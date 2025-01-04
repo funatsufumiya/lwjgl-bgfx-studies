@@ -5,7 +5,8 @@ import java.io.IOException;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_CULL_CW;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEPTH_TEST_LESS;
 import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
 import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_RGB;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
@@ -55,10 +56,16 @@ public class TriangleSketch extends Sketch {
 
         vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYC, 3), layout, kTriangleVertices);
         index_buffer = BGFXUtil.createIndexBuffer(kTriangleIndices);
+
         try {
             program = BGFXUtil.createBasicShaderProgram();
         } catch (IOException ex) {
             ex.printStackTrace();
+            throw new RuntimeException("Failed to create shader program");
+        }
+
+        // check program is valid
+        if (!BGFXUtil.isValidHandle(program)) {
             throw new RuntimeException("Failed to create shader program");
         }
     }

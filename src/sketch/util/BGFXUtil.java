@@ -78,6 +78,10 @@ public class BGFXUtil {
     }
   }
 
+  public static boolean isValidHandle(short handle){
+    return handle >= 0 && handle < 66535;
+  } 
+
   public static BGFXVertexLayout createVertexLayout2D(boolean withNormals, boolean withColor, int numUVs) {
 
         BGFXVertexLayout layout = BGFXVertexLayout.calloc();
