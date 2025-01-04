@@ -217,19 +217,25 @@ public class App {
                 switch (Platform.get()) {
                     case FREEBSD:
                     case LINUX:
-                        if (glfwGetPlatform() == GLFW_PLATFORM_WAYLAND) {
-                            App.logInfo("Using Wayland Window");
-                            init.platformData()
-                                .ndt(GLFWNativeWayland.glfwGetWaylandDisplay())
-                                .nwh(GLFWNativeWayland.glfwGetWaylandWindow(window))
-                                .type(BGFX_NATIVE_WINDOW_HANDLE_TYPE_WAYLAND);
-                        } else {
-                            App.logInfo("Using X11 Window");
-                            init.platformData()
-                                .ndt(GLFWNativeX11.glfwGetX11Display())
-                                .nwh(GLFWNativeX11.glfwGetX11Window(window));
-                        }
+
+                        init.platformData()
+                            .ndt(GLFWNativeX11.glfwGetX11Display())
+                            .nwh(GLFWNativeX11.glfwGetX11Window(window));
                         break;
+
+                        // if (glfwGetPlatform() == GLFW_PLATFORM_WAYLAND) {
+                        //     App.logInfo("Using Wayland Window");
+                        //     init.platformData()
+                        //         .ndt(GLFWNativeWayland.glfwGetWaylandDisplay())
+                        //         .nwh(GLFWNativeWayland.glfwGetWaylandWindow(window))
+                        //         .type(BGFX_NATIVE_WINDOW_HANDLE_TYPE_WAYLAND);
+                        // } else {
+                        //     App.logInfo("Using X11 Window");
+                        //     init.platformData()
+                        //         .ndt(GLFWNativeX11.glfwGetX11Display())
+                        //         .nwh(GLFWNativeX11.glfwGetX11Window(window));
+                        // }
+                        // break;
                     case MACOSX:
                         init.platformData()
                             .nwh(GLFWNativeCocoa.glfwGetCocoaWindow(window));
