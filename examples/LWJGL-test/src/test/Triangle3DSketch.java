@@ -9,10 +9,7 @@ import org.joml.Vector3f;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
 import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
 import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_MSAA;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_RGB;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_Z;
+import static org.lwjgl.bgfx.BGFX.BGFX_STATE_DEFAULT;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
 import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
 import static org.lwjgl.bgfx.BGFX.bgfx_destroy_index_buffer;
@@ -102,7 +99,7 @@ public class Triangle3DSketch extends Sketch {
         // background(125);
         // background(255);
 
-        bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 100.0f, 0);
+        // bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 100.0f, 0);
 
         BGFXUtil.lookAt(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, -35.0f), view);
         BGFXUtil.perspective(60.0f, width, height, 0.1f, 100.0f, proj);
@@ -131,13 +128,13 @@ public class Triangle3DSketch extends Sketch {
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 3);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 3);
 
-        // bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
-        bgfx_encoder_set_state(encoder,
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_WRITE_Z
-            | BGFX_STATE_MSAA,
-            0);
+        bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
+        // bgfx_encoder_set_state(encoder,
+        //     BGFX_STATE_WRITE_RGB
+        //     | BGFX_STATE_WRITE_A
+        //     | BGFX_STATE_WRITE_Z
+        //     | BGFX_STATE_MSAA,
+        //     0);
 
         bgfx_encoder_submit(encoder, 0, program, 0, 0);
 
