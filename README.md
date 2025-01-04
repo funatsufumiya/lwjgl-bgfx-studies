@@ -16,28 +16,19 @@ My studies of the BGFX library using the LWJGL3.
 bash ./scripts/compile_shaders.sh
 ```
 
+## Build
+
+```bash
+./gradlew buildExample
+```
+
 ## Run
 
-### Basic
-
-```bash
-./gradlew buildExample
-./gradlew runHelloBGFX
-```
-
-### Sketch style hello world
-
-```bash
-./gradlew buildExample
-./gradlew runHelloSketch
-```
-
-### Triangle
-
-```bash
-./gradlew buildExample
-./gradlew runTriangleSketch
-```
+- Basic, plain BGFX (`./gradlew runHelloBGFX`)
+- Sketch style hello world (`./gradlew runHelloSketch`)
+- Background (`./gradlew runBGSketch`)
+- Triangle (`./gradlew runTriangleSketch`)
+- Rectangle (`./gradlew runRectSketch`)
 
 ## Acknowledgements
 
