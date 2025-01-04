@@ -61,6 +61,11 @@ public class RectSketch extends Sketch {
             ex.printStackTrace();
             throw new RuntimeException("Failed to create shader program");
         }
+
+        // check if the program valid
+        if (!BGFXUtil.isValidHandle(program)) {
+            throw new RuntimeException("Failed to create shader program");
+        }
     }
 
     @Override
