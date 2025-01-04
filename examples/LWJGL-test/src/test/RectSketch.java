@@ -54,7 +54,7 @@ public class RectSketch extends Sketch {
 
         long encoder = bgfx_encoder_begin(false);
 
-        // draw triangle
+        // draw rect
 
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 4);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);
