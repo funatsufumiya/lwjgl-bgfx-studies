@@ -204,6 +204,8 @@ public class App {
 
             boolean useCallbacks = true;
 
+            BGFXUtil.reportSupportedRenderers();
+
             try (MemoryStack stack = stackPush()) {
                 BGFXInit init = BGFXInit.malloc(stack);
                 bgfx_init_ctor(init);

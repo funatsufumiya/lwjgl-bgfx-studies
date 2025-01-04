@@ -17,6 +17,7 @@ import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TEXCOORD0;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TYPE_FLOAT;
 import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TYPE_UINT8;
 import static org.lwjgl.bgfx.BGFX.BGFX_BUFFER_NONE;
+import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_COUNT;
 import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_DIRECT3D11;
 import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_DIRECT3D12;
 import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_METAL;
@@ -26,6 +27,7 @@ import static org.lwjgl.bgfx.BGFX.BGFX_TEXTURE_NONE;
 import static org.lwjgl.bgfx.BGFX.bgfx_create_shader;
 import static org.lwjgl.bgfx.BGFX.bgfx_create_texture;
 import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_name;
+import static org.lwjgl.bgfx.BGFX.bgfx_get_supported_renderers;
 import static org.lwjgl.bgfx.BGFX.bgfx_make_ref_release;
 import org.lwjgl.bgfx.BGFXMemory;
 import org.lwjgl.bgfx.BGFXReleaseFunctionCallback;
@@ -69,6 +71,17 @@ public class BGFXUtil {
     XYC,
     XYZC
   }
+
+    public static void reportSupportedRenderers() {
+        int[] rendererTypes = new int[BGFX_RENDERER_TYPE_COUNT];
+        int count = bgfx_get_supported_renderers(rendererTypes);
+
+        App.logInfo("bgfx: renderers supported");
+
+        for (int i = 0; i < count; i++) {
+            App.logInfo("    " + bgfx_get_renderer_name(rendererTypes[i]));
+        }
+    }
 
   public static int byteSizeOf(VertexLayoutType type, int count) {
     switch (type) {
