@@ -41,4 +41,5 @@ This project is mainly based on the following projects (mixtures of them):
 
 ## Known Issues
 
-- Triangle and Rectangle example, not working on Vulkan backend. (researching.)
+- Triangle and Rectangle examples are not working on LWJGL 3.3.4 / 3.3.5 Vulkan backend. (researching reasons...)
+    - For this reason, using LWJGL 3.3.3 for now.
