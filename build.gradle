@@ -79,37 +79,37 @@ tasks.register('buildHelloBGFX', JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-task runHelloBGFX(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.HelloBGFX'
+def runExample(task, mainClassName) {
+    task.configure {
+        classpath = sourceSets.example.runtimeClasspath
+        main = 'test.' + mainClassName
+    }
 }
 
-task runSimplest(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.Simplest'
+def createExampleTasks(List<String> tasks) {
+    tasks.each { className ->
+        project.tasks.create(name: "run${className}", type: JavaExec) {
+            classpath = sourceSets.example.runtimeClasspath
+            main = "test.${className}"
+        }
+    }
 }
 
-task runHelloSketch(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.HelloSketch'
-}
+createExampleTasks([
+    'HelloBGFX',
+    'Simplest',
+    'HelloSketch',
+    'BGSketch',
+    'TriangleSketch',
+    'Triangle3DSketch',
+    'RectSketch'
+    // 'TextureSketch'
+])
 
-task runBGSketch(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.BGSketch'
-}
-
-task runTriangleSketch(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.TriangleSketch'
-}
-
-task runTriangle3DSketch(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.Triangle3DSketch'
-}
-
-task runRectSketch(type: JavaExec) {
-    classpath = sourceSets.example.runtimeClasspath
-    main = 'test.RectSketch'
+task runE(type: JavaExec) {
+    if (project.hasProperty('c') && project.c) {
+        runExample(it, project.c)
+    }else{
+        runExample(it, 'TriangleSketch')
+    }
 }
