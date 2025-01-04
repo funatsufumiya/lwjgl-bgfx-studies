@@ -1,12 +1,6 @@
 package test;
 
-import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
-import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_DEPTH;
-import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
-import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
-import static org.lwjgl.bgfx.BGFX.bgfx_set_debug;
-import static org.lwjgl.bgfx.BGFX.bgfx_set_view_clear;
+import static org.lwjgl.bgfx.BGFX.*;
 
 import sketch.App;
 import sketch.Sketch;

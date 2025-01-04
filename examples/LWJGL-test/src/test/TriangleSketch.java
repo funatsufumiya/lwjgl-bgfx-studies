@@ -2,23 +2,7 @@ package test;
 
 import java.io.IOException;
 
-import static org.lwjgl.bgfx.BGFX.BGFX_CLEAR_COLOR;
-import static org.lwjgl.bgfx.BGFX.BGFX_DEBUG_TEXT;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_A;
-import static org.lwjgl.bgfx.BGFX.BGFX_STATE_WRITE_RGB;
-import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_clear;
-import static org.lwjgl.bgfx.BGFX.bgfx_dbg_text_printf;
-import static org.lwjgl.bgfx.BGFX.bgfx_destroy_index_buffer;
-import static org.lwjgl.bgfx.BGFX.bgfx_destroy_program;
-import static org.lwjgl.bgfx.BGFX.bgfx_destroy_vertex_buffer;
-import static org.lwjgl.bgfx.BGFX.bgfx_encoder_begin;
-import static org.lwjgl.bgfx.BGFX.bgfx_encoder_end;
-import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_index_buffer;
-import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_state;
-import static org.lwjgl.bgfx.BGFX.bgfx_encoder_set_vertex_buffer;
-import static org.lwjgl.bgfx.BGFX.bgfx_encoder_submit;
-import static org.lwjgl.bgfx.BGFX.bgfx_set_debug;
-import static org.lwjgl.bgfx.BGFX.bgfx_set_view_clear;
+import static org.lwjgl.bgfx.BGFX.*;
 import org.lwjgl.bgfx.BGFXVertexLayout;
 
 import sketch.App;
