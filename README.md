@@ -18,6 +18,14 @@ My studies of the BGFX library using the LWJGL3. Working on Win/Mac/Linux, DX12/
 bash ./scripts/compile_shaders.sh
 ```
 
+## Compiling Textures
+
+- Installation process is the same as [Compiling Shaders](#compiling-shaders)
+
+```bash
+bash ./scripts/compile_textures.sh
+```
+
 ## Build
 
 ```bash
