@@ -51,7 +51,7 @@ public class Triangle3DSketch extends Sketch {
     FloatBuffer modelBuf;
 
     @Override
-    public void setup() {
+    public void setup() throws IOException {
         // Enable debug text.
         bgfx_set_debug(BGFX_DEBUG_TEXT);
         bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
@@ -70,12 +70,7 @@ public class Triangle3DSketch extends Sketch {
         projBuf = MemoryUtil.memAllocFloat(16);
         modelBuf = MemoryUtil.memAllocFloat(16);
 
-        try {
-            program = BGFXUtil.createBasic3DShaderProgram();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Failed to create shader program");
-        }
+        program = BGFXUtil.createBasic3DShaderProgram();
 
         // check program is valid
         if (!BGFXUtil.isValidHandle(program)) {

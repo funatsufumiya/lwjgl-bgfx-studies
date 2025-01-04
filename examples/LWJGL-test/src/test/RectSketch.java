@@ -29,7 +29,7 @@ public class RectSketch extends Sketch {
     short program = -1;
 
     @Override
-    public void setup() {
+    public void setup() throws IOException {
         // Enable debug text.
         bgfx_set_debug(BGFX_DEBUG_TEXT);
         bgfx_set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
@@ -38,12 +38,7 @@ public class RectSketch extends Sketch {
 
         vertex_buffer = BGFXUtil.createVertexBuffer(byteSizeOf(XYC, 4), layout, kRectVertices);
         index_buffer = BGFXUtil.createIndexBuffer(kRectIndices);
-        try {
-            program = BGFXUtil.createBasicShaderProgram();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Failed to create shader program");
-        }
+        program = BGFXUtil.createBasicShaderProgram();
 
         // check if the program valid
         if (!BGFXUtil.isValidHandle(program)) {

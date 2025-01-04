@@ -1,5 +1,6 @@
 package sketch;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Objects;
 
@@ -257,7 +258,13 @@ public class App {
             BGFXUtil._configure();
 
             sketch._setStartTimeMillis(System.currentTimeMillis());
-            sketch.setup();
+
+            try {
+                sketch.setup();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                throw new RuntimeException("Failed to setup sketch");
+            }
 
             while (!glfwWindowShouldClose(window)) {
                 glfwPollEvents();

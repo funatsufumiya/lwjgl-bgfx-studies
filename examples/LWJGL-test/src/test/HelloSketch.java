@@ -1,5 +1,7 @@
 package test;
 
+import java.io.IOException;
+
 import static org.lwjgl.bgfx.BGFX.*;
 
 import sketch.App;
@@ -7,7 +9,7 @@ import sketch.Sketch;
 
 public class HelloSketch extends Sketch {
     @Override
-    public void setup() {
+    public void setup() throws IOException {
         // Enable debug text.
         bgfx_set_debug(BGFX_DEBUG_TEXT);
 

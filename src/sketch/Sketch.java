@@ -1,5 +1,7 @@
 package sketch;
 
+import java.io.IOException;
+
 public abstract class Sketch {
     protected long startTimeMillis = System.currentTimeMillis();
 
@@ -13,7 +15,7 @@ public abstract class Sketch {
         return elapsedTimeMillis() / 1000.0f;
     }
 
-    public abstract void setup();
+    public abstract void setup() throws IOException;
     public abstract void draw();
     public void exit() {}
 }
