@@ -11,15 +11,15 @@ repositories {
 }
 
 // project.ext.lwjglVersion = "3.3.5"
-project.ext.lwjglVersion = "3.3.3"
+project.ext.lwjglVersion = "3.3.4"
 project.ext.lwjglNatives = "natives-macos-arm64"
 project.ext.lwjglNatives2 = "natives-windows"
 project.ext.lwjglNatives3 = "natives-linux"
 
 dependencies {
-    implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.3'
-    implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.3'
-    implementation group: 'org.lwjgl', name: 'lwjgl-bgfx', version: '3.3.3'
+    implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.4'
+    implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.4'
+    implementation group: 'org.lwjgl', name: 'lwjgl-bgfx', version: '3.3.4'
 
     // implementation group: 'org.lwjgl', name: 'lwjgl', version: '3.3.5'
     // implementation group: 'org.lwjgl', name: 'lwjgl-glfw', version: '3.3.5'
