@@ -16,15 +16,27 @@ My studies of the BGFX library using the LWJGL3. Working on Win/Mac/Linux, DX12/
 
 ## Run
 
+### Basic
+
 - Basic, plain BGFX (`./gradlew runHelloBGFX`)
 - Sketch style hello world (`./gradlew runHelloSketch`)
 - Background (`./gradlew runBGSketch`)
+
+### 2D
+
 - Triangle 2D (`./gradlew runTriangleSketch`)
 - Rectangle 2D (`./gradlew runRectSketch`)
 - Texture 2D (`./gradlew runTextureSketch`)
+
+### 3D
+
 - Triangle 3D (`./gradlew runTriangle3DSketch`)
 - Rectangle 3D (`./gradlew runRect3DSketch`)
 - Texture 3D (`./gradlew runTexture3DSketch`)
+
+### FrameBuffer
+
+- FrameBufer 3D (`./gradlew runFrameBufer3DSketch`)
 
 ## Compiling Shaders
 
