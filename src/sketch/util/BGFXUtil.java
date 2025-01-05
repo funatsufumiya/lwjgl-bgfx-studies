@@ -10,25 +10,7 @@ import org.joml.Matrix4f;
 import org.joml.Matrix4x3f;
 import org.joml.Vector3f;
 import org.lwjgl.bgfx.BGFX;
-import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_COLOR0;
-import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_NORMAL;
-import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_POSITION;
-import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TEXCOORD0;
-import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TYPE_FLOAT;
-import static org.lwjgl.bgfx.BGFX.BGFX_ATTRIB_TYPE_UINT8;
-import static org.lwjgl.bgfx.BGFX.BGFX_BUFFER_NONE;
-import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_COUNT;
-import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_DIRECT3D11;
-import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_DIRECT3D12;
-import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_METAL;
-import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_OPENGL;
-import static org.lwjgl.bgfx.BGFX.BGFX_RENDERER_TYPE_VULKAN;
-import static org.lwjgl.bgfx.BGFX.BGFX_TEXTURE_NONE;
-import static org.lwjgl.bgfx.BGFX.bgfx_create_shader;
-import static org.lwjgl.bgfx.BGFX.bgfx_create_texture;
-import static org.lwjgl.bgfx.BGFX.bgfx_get_renderer_name;
-import static org.lwjgl.bgfx.BGFX.bgfx_get_supported_renderers;
-import static org.lwjgl.bgfx.BGFX.bgfx_make_ref_release;
+import static org.lwjgl.bgfx.BGFX.*;
 import org.lwjgl.bgfx.BGFXMemory;
 import org.lwjgl.bgfx.BGFXReleaseFunctionCallback;
 import org.lwjgl.bgfx.BGFXVertexLayout;
@@ -297,13 +279,14 @@ public class BGFXUtil {
         return bgfx_create_shader(bgfx_make_ref_release(shaderCode, releaseMemoryCb, NULL));
     }
 
-    public static short loadTexture(String fileName) throws IOException {
-
+    public static short loadTexture(String fileName, long flags) throws IOException {
         ByteBuffer textureData = loadResource(TEXTURE_RESOURCE_PATH, fileName);
-
         BGFXMemory textureMemory = bgfx_make_ref_release(textureData, releaseMemoryCb, NULL);
+        return bgfx_create_texture(textureMemory, flags, 0, null);
+    }
 
-        return bgfx_create_texture(textureMemory, BGFX_TEXTURE_NONE, 0, null);
+    public static short loadTexture(String fileName) throws IOException {
+        return loadTexture(fileName, BGFX_TEXTURE_NONE|BGFX_SAMPLER_NONE);
     }
 
   public static BGFXVertexLayout createVertexLayout3D(boolean withNormals, boolean withColor, int numUVs) {

@@ -9,6 +9,8 @@ fi
 
 TEXTUREC=texturec
 TEXTUREC_FLAGS="-m"
+TEXTURE_OUT_EXT="ktx"
+# TEXTURE_OUT_EXT="dds"
 
 PROJECT_DIR=$(dirname $(dirname $(realpath $0)))
 echo "Project directory: $PROJECT_DIR"
@@ -34,7 +36,7 @@ function build {
     file_base_name=$(basename $1)
     file_without_ext=${file_base_name%.*}
     format=$2
-    build_impl $format $OUT_DIR/$file_without_ext.ktx $file_dir/$file_base_name
+    build_impl $format $OUT_DIR/$file_without_ext.$TEXTURE_OUT_EXT $file_dir/$file_base_name
 }
 
 echo "---"
