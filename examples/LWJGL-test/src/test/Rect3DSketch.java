@@ -89,7 +89,7 @@ public class Rect3DSketch extends Sketch {
 
         long encoder = bgfx_encoder_begin(false);
 
-        // draw triangle
+        // draw rect
 
         float t = elapsedTimeSeconds();
         float s = (float) Math.sin(t);
