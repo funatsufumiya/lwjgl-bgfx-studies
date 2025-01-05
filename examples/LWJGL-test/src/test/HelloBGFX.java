@@ -75,6 +75,10 @@ public final class HelloBGFX {
             }
         });
 
+        // Call bgfx::renderFrame before bgfx::init to signal to bgfx not to create a render thread.
+	    // Most graphics APIs must be used on the same thread that created the window.
+        BGFXPlatform.bgfx_render_frame(-1);
+
         try (MemoryStack stack = stackPush()) {
             BGFXInit init = BGFXInit.malloc(stack);
             bgfx_init_ctor(init);

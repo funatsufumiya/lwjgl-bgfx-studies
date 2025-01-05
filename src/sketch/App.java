@@ -8,6 +8,7 @@ import static org.lwjgl.bgfx.BGFX.*;
 import org.lwjgl.bgfx.BGFXCallbackInterface;
 import org.lwjgl.bgfx.BGFXCallbackVtbl;
 import org.lwjgl.bgfx.BGFXInit;
+import org.lwjgl.bgfx.BGFXPlatform;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -176,6 +177,10 @@ public class App {
             });
 
             boolean useCallbacks = true;
+
+            // Call bgfx::renderFrame before bgfx::init to signal to bgfx not to create a render thread.
+            // Most graphics APIs must be used on the same thread that created the window.
+            BGFXPlatform.bgfx_render_frame(-1);
 
             BGFXUtil.reportSupportedRenderers();
 
