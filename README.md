@@ -6,6 +6,24 @@ My studies of the BGFX library using the LWJGL3. Working on Win/Mac/Linux, DX12/
 
 (Mainly scratches for understanding and implementations of [processing-lwjgl-bgfx](https://github.com/funatsufumiya/processing-lwjgl-bgfx))
 
+## Build
+
+```bash
+./gradlew buildExample
+```
+
+**NOTE**: This command is optional when execute [Run](#run) commands. (Run commands `dependsOn(buildExample)`.)
+
+## Run
+
+- Basic, plain BGFX (`./gradlew runHelloBGFX`)
+- Sketch style hello world (`./gradlew runHelloSketch`)
+- Background (`./gradlew runBGSketch`)
+- Triangle (`./gradlew runTriangleSketch`)
+- Rectangle (`./gradlew runRectSketch`)
+- Texture 2D (`./gradlew runTextureSketch`)
+- Triangle 3D (`./gradlew runTriangle3DSketch`)
+
 ## Compiling Shaders
 
 **NOTE**: Most of precompiled shaders are already included in this repository. (The process below is only needed when you want to update the shaders.)
@@ -25,23 +43,6 @@ bash ./scripts/compile_shaders.sh
 ```bash
 bash ./scripts/compile_textures.sh
 ```
-
-## Build
-
-```bash
-./gradlew buildExample
-```
-
-**NOTE**: This command is optional when execute [Run](#run) commands. (Run commands `dependsOn(buildExample)`.)
-
-## Run
-
-- Basic, plain BGFX (`./gradlew runHelloBGFX`)
-- Sketch style hello world (`./gradlew runHelloSketch`)
-- Background (`./gradlew runBGSketch`)
-- Triangle (`./gradlew runTriangleSketch`)
-- Rectangle (`./gradlew runRectSketch`)
-- Triangle 3D (`./gradlew runTriangle3DSketch`)
 
 ## Acknowledgements
 

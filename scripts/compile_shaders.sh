@@ -97,3 +97,5 @@ build basic fs_basic
 build basic vs_basic
 build basic3d fs_basic3d
 build basic3d vs_basic3d
+build tex2d fs_tex2d
+build tex2d vs_tex2d

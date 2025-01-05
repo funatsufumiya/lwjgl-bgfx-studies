@@ -83,20 +83,36 @@ public class BGFXUtil {
         }
     }
 
-  public static int byteSizeOf(VertexLayoutType type, int count) {
+  public static int byteSizeOf(VertexLayoutType type, int count, int numUVs) {
     switch (type) {
       case XYC:
-        return (2 * 4 + 4) * count;
+        return (2 * 4 + 4) * count + (2 * 4 * 4) * numUVs;
       case XYZC:
-        return (3 * 4 + 4) * count;
+        return (3 * 4 + 4) * count + (2 * 4 * 4) * numUVs;
       default:
         throw new RuntimeException("Invalid vertex layout type");
     }
   }
 
+  public static int byteSizeOf(VertexLayoutType type, int count) {
+    return byteSizeOf(type, count, 0);
+  }
+
   public static boolean isValidHandle(short handle){
     return handle >= 0 && handle < 66535;
   } 
+
+  public static void assertHandle(short handle){
+    if (!isValidHandle(handle)) {
+      throw new RuntimeException("Invalid handle: " + handle);
+    }
+  }
+
+  public static void assertHandle(short handle, String errorMessage) {
+    if (!isValidHandle(handle)) {
+        throw new RuntimeException(errorMessage);
+    }
+  }
 
   public static BGFXVertexLayout createVertexLayout2D(boolean withNormals, boolean withColor, int numUVs) {
 

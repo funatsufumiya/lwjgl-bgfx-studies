@@ -103,14 +103,17 @@ createExampleTasks([
     'BGSketch',
     'TriangleSketch',
     'Triangle3DSketch',
-    'RectSketch'
-    // 'TextureSketch'
+    'RectSketch',
+    'TextureSketch'
 ])
 
+// (ex:) gradle runE -Pc=TriangleSketch
 task runE(type: JavaExec) {
     dependsOn(buildExample)
     if (project.hasProperty('c') && project.c) {
         runExample(it, project.c)
+    }else if (project.hasProperty('className') && project.className) {
+        runExample(it, project.className)
     }else{
         runExample(it, 'TriangleSketch')
     }
