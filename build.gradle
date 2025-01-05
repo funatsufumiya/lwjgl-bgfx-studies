@@ -105,7 +105,8 @@ createExampleTasks([
     'Triangle3DSketch',
     'RectSketch',
     'Rect3DSketch',
-    'TextureSketch'
+    'TextureSketch',
+    'Texture3DSketch'
 ])
 
 // (ex:) gradle runE -Pc=TriangleSketch
