@@ -100,8 +100,7 @@ public class Texture3DSketch extends Sketch {
         bgfx_encoder_set_texture(encoder, 0, sampler, texture,
             BGFX_SAMPLER_U_CLAMP
             | BGFX_SAMPLER_V_CLAMP
-            // | BGFX_SAMPLER_U_MIRROR
-            // | BGFX_SAMPLER_V_MIRROR
+            // | BGFX_SAMPLER_MIP_POINT
         );
 
         float t = elapsedTimeSeconds();
@@ -122,13 +121,20 @@ public class Texture3DSketch extends Sketch {
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 4);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);
 
-        bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
+        // bgfx_encoder_set_state(encoder, BGFX_STATE_DEFAULT, 0);
         // bgfx_encoder_set_state(encoder,
         //     BGFX_STATE_WRITE_RGB
         //     | BGFX_STATE_WRITE_A
         //     | BGFX_STATE_WRITE_Z
         //     | BGFX_STATE_MSAA,
         //     0);
+        bgfx_encoder_set_state(encoder, 
+            BGFX_STATE_WRITE_RGB
+            | BGFX_STATE_WRITE_A
+            | BGFX_STATE_WRITE_Z
+            | BGFX_STATE_DEPTH_TEST_LESS
+            | BGFX_STATE_MSAA, 
+            0);
 
         bgfx_encoder_submit(encoder, 0, program, 0, 0);
 

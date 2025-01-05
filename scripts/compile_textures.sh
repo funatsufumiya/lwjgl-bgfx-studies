@@ -8,7 +8,8 @@ if ! [ -x "$(command -v texturec)" ]; then
 fi
 
 TEXTUREC=texturec
-TEXTUREC_FLAGS="-m"
+# TEXTUREC_FLAGS="-m"
+TEXTUREC_FLAGS=""
 TEXTURE_OUT_EXT="ktx"
 # TEXTURE_OUT_EXT="dds"
 
