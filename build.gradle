@@ -104,6 +104,7 @@ createExampleTasks([
     'TriangleSketch',
     'Triangle3DSketch',
     'RectSketch',
+    'Rect3DSketch',
     'TextureSketch'
 ])
 
