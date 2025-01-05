@@ -16,16 +16,17 @@ import static sketch.util.BGFXUtil.byteSizeOf;
 public class TextureSketch extends Sketch {
     private BGFXVertexLayout layout;
 
-    private static final Object[][] kRectVertices = {
-        {-0.5f, -0.5f, 0.0f, 0.0f, 0x339933FF}, // x, y, u, v, color
-        { 0.5f, -0.5f, 1.0f, 0.0f, 0x993333FF},
-        { 0.5f,  0.5f, 1.0f, 1.0f, 0x333399FF},
-        {-0.5f,  0.5f, 0.0f, 1.0f, 0x999999FF}
+    // w scale
+    float ws = 0.7f;
+    // h scale
+    float hs = 0.5f;
 
-        // {-1.0f, -1.0f, 0.0f, 0.0f, 0x339933FF}, // x, y, u, v, color
-        // { 1.0f, -1.0f, 1.0f, 0.0f, 0x993333FF},
-        // { 1.0f,  1.0f, 1.0f, 1.0f, 0x333399FF},
-        // {-1.0f,  1.0f, 0.0f, 1.0f, 0x999999FF}
+    Object[][] kRectVertices = {
+        // x, y, color, u, v
+        {-1.0f * ws, -1.0f * hs, 0x339933FF, 0.0f, 1.0f},
+        { 1.0f * ws, -1.0f * hs, 0x993333FF, 1.0f, 1.0f},
+        { 1.0f * ws,  1.0f * hs, 0x333399FF, 1.0f, 0.0f},
+        {-1.0f * ws,  1.0f * hs, 0x999999FF, 0.0f, 0.0f}
     };
 
     int kRectIndices[] = {0, 1, 2, 0, 2, 3};
@@ -67,7 +68,12 @@ public class TextureSketch extends Sketch {
 
         // draw rect with texture
 
-        bgfx_encoder_set_texture(encoder, 0, sampler, texture, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        bgfx_encoder_set_texture(encoder, 0, sampler, texture,
+            BGFX_SAMPLER_U_CLAMP
+            | BGFX_SAMPLER_V_CLAMP
+            // | BGFX_SAMPLER_U_MIRROR
+            // | BGFX_SAMPLER_V_MIRROR
+        );
 
         bgfx_encoder_set_vertex_buffer(encoder, 0, vertex_buffer, 0, 4);
         bgfx_encoder_set_index_buffer(encoder, index_buffer, 0, 6);
@@ -86,7 +92,7 @@ public class TextureSketch extends Sketch {
 
         // Use debug font to print information about this example.
         bgfx_dbg_text_clear(0, false);
-        bgfx_dbg_text_printf(0, 0, 0x0f, "Rect");
+        bgfx_dbg_text_printf(0, 0, 0x0f, "Texture2D");
     }
 
     @Override
